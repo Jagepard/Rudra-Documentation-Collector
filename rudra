@@ -1,0 +1,17 @@
+#!/usr/bin/php
+<?php
+
+if (php_sapi_name() !== "cli") exit;
+
+require __DIR__ . "/vendor/autoload.php";
+
+use D\Commands\ConsoleCommand;
+use D\Commands\AnnotationCommand;
+use Rudra\Cli\ConsoleFacade as Cli;
+
+parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
+
+
+Cli::addCommand("ann", [AnnotationCommand::class]);
+Cli::addCommand("help", [ConsoleCommand::class]);
+Cli::invoke($inputArgs);

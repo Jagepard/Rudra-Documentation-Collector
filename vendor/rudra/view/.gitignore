@@ -1,0 +1,6 @@
+/.idea/
+/vendor/
+/composer.lock
+/app/resources/twig/compilation_cache/
+/tests/build/
+.phpunit.result.cache
