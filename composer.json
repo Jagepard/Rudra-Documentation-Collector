@@ -25,7 +25,7 @@
     "bin":["bin/rudra"],
     "autoload": {
         "psr-4": {
-            "Rudra\\Markdown\\": "src/"
+            "Rudra\\Markdown\\": "src/Commands/"
         }
     },
     "minimum-stability": "dev"
