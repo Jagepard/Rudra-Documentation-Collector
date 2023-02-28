@@ -1,22 +1,26 @@
 ## Table of contents
-- [D\Commands\ConsoleCommand](#d_commands_consolecommand)
-- [D\Commands\DocumentationCommand](#d_commands_documentationcommand)
-<hr><a id="d_commands_consolecommand"></a>
-### Class: D\Commands\ConsoleCommand
+- [Rudra\Cli\Console](#rudra_cli_console)
+- [Rudra\Cli\ConsoleFacade](#rudra_cli_consolefacade)
+- [Rudra\Cli\ConsoleInterface](#rudra_cli_consoleinterface)
+<hr><br><a id="rudra_cli_console"></a><br>### Class: Rudra\Cli\Console
 | Visibility | Function |
 |:-----------|:---------|
-|public|actionIndex()|
-|protected|getTable( array $data )|
-<a id="d_commands_documentationcommand"></a>
-### Class: D\Commands\DocumentationCommand
+|public|printer( string $text  string $fg  string $bg )|
+|public|reader()|
+|public|addCommand(  $name   $command )|
+|public|invoke(  $inputArgs )|
+|public|getRegistry()|
+|private|checkColorExists( string $key )|
+<br><a id="rudra_cli_consolefacade"></a><br>### Class: Rudra\Cli\ConsoleFacade
 | Visibility | Function |
 |:-----------|:---------|
-|public|actionIndex()|
-|protected|collectMarkdown( string $outputPath )|
-|protected|scandir(  $inputPath   $outputPath )|
-|protected|buildDocumentation(  $outputPath   $fullClassName )|
-|protected|setHeader( string $fullClassName )|
-|private|createHeaderString( string $fullClassName )|
-|protected|setBody(  $fullClassName )|
-|private|createBodyString( string $fullClassName )|
+|public static|__callStatic(  $method   $parameters )|
+<br><a id="rudra_cli_consoleinterface"></a><br>### Class: Rudra\Cli\ConsoleInterface
+| Visibility | Function |
+|:-----------|:---------|
+|abstract public|printer( string $text  string $fg  string $bg )|
+|abstract public|reader()|
+|abstract public|addCommand(  $name   $command )|
+|abstract public|invoke(  $inputArgs )|
+|abstract public|getRegistry()|
 <hr>

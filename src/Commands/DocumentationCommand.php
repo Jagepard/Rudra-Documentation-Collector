@@ -105,8 +105,8 @@ class DocumentationCommand
 
     private function createBodyString(string $fullClassName): string
     {
-        $header = '<a id="' . str_replace("\\", "_", strtolower($fullClassName)) . '"></a>' 
-                  . PHP_EOL . '### Class: ' . $fullClassName  . PHP_EOL;
+        $header = '<br><a id="' . str_replace("\\", "_", strtolower($fullClassName)) . '"></a>' 
+                  . '<br>' . '### Class: ' . $fullClassName  . PHP_EOL;
         $table  = '| Visibility | Function |' . PHP_EOL .
                   '|:-----------|:---------|' . PHP_EOL;
 
