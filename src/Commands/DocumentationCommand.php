@@ -131,25 +131,28 @@ class DocumentationCommand
             }
 
             $returnType = ($method->getReturnType()) ? ': ' .  $method->getReturnType() : null;
+            $table     .= ')' . $returnType . '</em><br>';
+            $docBlock   = '';
 
-            $table .= ')' . $returnType . '</em><br>';
-
-            $docBlock     = substr($method->getDocComment(), 3, -2);
-            $docBlock     = str_replace("*", "", $docBlock);
-            $docBlock     = str_replace("  ", "", $docBlock);
-            $docBlock     = str_replace("-", "", $docBlock);
-            $strings      = explode("\n", $docBlock);
-            $newStrings   = [];
-
-            foreach ($strings as $string) {
-                if (ctype_space($string) or $string == '' or str_contains($string, "@")) {
-                    continue;
+            if ($method->getDocComment()) {
+                $docBlock   = substr($method->getDocComment(), 3, -2);
+                $docBlock   = str_replace("*", "", $docBlock);
+                $docBlock   = str_replace("  ", "", $docBlock);
+                $docBlock   = str_replace("-", "", $docBlock);
+                $strings    = explode("\n", $docBlock);
+                $newStrings = [];
+    
+                foreach ($strings as $string) {
+                    if (ctype_space($string) or $string == '' or str_contains($string, "@")) {
+                        continue;
+                    }
+    
+                    $newStrings[] = $string;
                 }
-
-                $newStrings[] = $string;
+    
+                $docBlock = implode("<br>", $newStrings);
             }
 
-            $docBlock = implode("<br>", $newStrings);
             $table   .= $docBlock . '|' . "\n";
         }
 
