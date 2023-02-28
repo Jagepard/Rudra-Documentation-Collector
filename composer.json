@@ -1,20 +1,32 @@
 {
-    "name": "d/test",
-    "autoload": {
-        "psr-4": {
-            "D\\": "src/"
-        }
-    },
-    "authors": [
+    "name"             : "rudra/markdown",
+    "description"      : "Command line tool for generating markdown-formatted class documentation",
+    "type"             : "library",
+    "keywords"         : [
+        "rudra",
+        "markdown",
+        "generator"
+    ],
+    "license"          : "MIT",
+    "authors"          : [
         {
-            "name": "Jagepard",
-            "email": "dankorot@gmail.com"
+            "name"    : "Jagepard",
+            "email"   : "jagepard@yandex.ru",
+            "homepage": "https://jagepard.ru",
+            "role"    : "Developer"
         }
     ],
+    "support"          : {
+        "email": "jagepard@yandex.ru"
+    },
     "require": {
-        "rudra/view": "dev-master",
-        "rudra/cli": "dev-main",
-        "rudra/annotation": "dev-master"
+        "rudra/cli": "dev-main"
+    },
+    "bin":["bin/rudra"],
+    "autoload": {
+        "psr-4": {
+            "Rudra\\Markdown": "src/"
+        }
     },
     "minimum-stability": "dev"
 }
