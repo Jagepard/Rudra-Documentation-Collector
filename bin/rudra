@@ -16,8 +16,8 @@ foreach($autoLoadPaths as $autoloader) {
     }
 }
 
-use D\Commands\ConsoleCommand;
-use D\Commands\DocumentationCommand;
+use Rudra\Markdown\ConsoleCommand;
+use Rudra\Markdown\DocumentationCommand;
 use Rudra\Cli\ConsoleFacade as Cli;
 
 parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
