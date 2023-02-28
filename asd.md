@@ -1,28 +1,34 @@
 ## Table of contents
-- [D\Commands\ConsoleCommand](#d_commands_consolecommand)
-- [D\Commands\DocumentationCommand](#d_commands_documentationcommand)
+- [Rudra\Annotation\Annotation](#rudra_annotation_annotation)
+- [Rudra\Annotation\AnnotationInterface](#rudra_annotation_annotationinterface)
+- [Rudra\Annotation\AnnotationMatcher](#rudra_annotation_annotationmatcher)
 <hr>
 
-<a id="d_commands_consolecommand"></a>
+<a id="rudra_annotation_annotation"></a>
 
-### Class: D\Commands\ConsoleCommand
+### Class: Rudra\Annotation\Annotation
 | Visibility | Function |
 |:-----------|:---------|
-|public|actionIndex()|
-|protected|getTable( array data )|
+|public|getAnnotations( string $className  ?string $methodName )|
+|public|getAttributes( string $className  ?string $methodName )|
+|private|getReflection( string $className  ?string $methodName )|
+|private|parseAnnotations( string $docBlock )|
 
 
-<a id="d_commands_documentationcommand"></a>
+<a id="rudra_annotation_annotationinterface"></a>
 
-### Class: D\Commands\DocumentationCommand
+### Class: Rudra\Annotation\AnnotationInterface
 | Visibility | Function |
 |:-----------|:---------|
-|public|actionIndex()|
-|protected|collectMarkdown( string outputPath )|
-|protected|scandir(  inputPath   outputPath )|
-|protected|buildDocumentation(  outputPath   fullClassName )|
-|protected|setHeader( string fullClassName )|
-|private|createHeaderString( string fullClassName )|
-|protected|setBody(  fullClassName )|
-|private|createBodyString( string fullClassName )|
+|abstract public|getAnnotations( string $className  ?string $methodName )|
+|abstract public|getAttributes( string $className  ?string $methodName )|
+
+
+<a id="rudra_annotation_annotationmatcher"></a>
+
+### Class: Rudra\Annotation\AnnotationMatcher
+| Visibility | Function |
+|:-----------|:---------|
+|public|getParams( array $exploded  string $assignment )|
+|private|handleData( string $data  array $exploded )|
 <hr>

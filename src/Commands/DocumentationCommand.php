@@ -86,7 +86,7 @@ class DocumentationCommand
 
     private function createHeaderString(string $fullClassName): string
     {
-        return '- [' . $fullClassName . '](#' . str_replace("\\", "_", strtolower($fullClassName)) . ')' . PHP_EOL;
+        return '- [' . $fullClassName . '](#' . str_replace("\\", "_", strtolower($fullClassName)) . ')' . "\n";
     }
 
     protected function setBody($fullClassName): void
@@ -106,9 +106,9 @@ class DocumentationCommand
     private function createBodyString(string $fullClassName): string
     {
         $header = "\n\n" . '<a id="' . str_replace("\\", "_", strtolower($fullClassName)) . '"></a>' 
-                  . "\n\n" . '### Class: ' . $fullClassName  . PHP_EOL;
-        $table  = '| Visibility | Function |' . PHP_EOL .
-                  '|:-----------|:---------|' . PHP_EOL;
+                  . "\n\n" . '### Class: ' . $fullClassName  . "\n";
+        $table  = '| Visibility | Function |' . "\n" .
+                  '|:-----------|:---------|' . "\n";
 
         $class   = new \ReflectionClass($fullClassName);
         $methods = $class->getMethods();
@@ -120,10 +120,10 @@ class DocumentationCommand
             $params = $method->getParameters();
 
             foreach ($params as $param) {
-                $table .= ' ' . $param->getType() . ' ' . $param->getName() . ' ';
+                $table .= ' ' . $param->getType() . ' $' . $param->getName() . ' ';
             }
 
-            $table .= ')|' . PHP_EOL;
+            $table .= ')|' . "\n";
         }
 
         return $header . $table;
