@@ -164,7 +164,7 @@ class DocumentationCommand
 
         foreach ($methods as $method) {
             $table .= '|' . implode(' ', \Reflection::getModifierNames($method->getModifiers())) .
-                      '|' . $method->getName() . '(';
+                      '|' . '<em>' . $method->getName() . '(';
 
             $params = $method->getParameters();
 
@@ -174,11 +174,12 @@ class DocumentationCommand
 
             $returnType = ($method->getReturnType()) ? ': ' .  $method->getReturnType() : null;
 
-            $table .= ')' . $returnType . '<br>';
+            $table .= ')' . $returnType . '</em><br>';
 
             $docBlock     = substr($method->getDocComment(), 3, -2);
             $docBlock     = str_replace("*", "", $docBlock);
             $docBlock     = str_replace("  ", "", $docBlock);
+            $docBlock     = str_replace("-", "", $docBlock);
             $strings      = explode("\n", $docBlock);
             $newStrings   = [];
 
@@ -190,11 +191,8 @@ class DocumentationCommand
                 $newStrings[] = $string;
             }
 
-            $docBlock = implode("\n", $newStrings);
-
-            var_dump($docBlock);
-
-            $table .= $docBlock . '|' . "\n";
+            $docBlock = implode("<br>", $newStrings);
+            $table   .= $docBlock . '|' . "\n";
         }
 
         return $header . $table;
