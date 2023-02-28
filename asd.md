@@ -1,28 +1,52 @@
 ## Table of contents
-- [D\Commands\ConsoleCommand](#d_commands_consolecommand)
-- [D\Commands\DocumentationCommand](#d_commands_documentationcommand)
+- [Rudra\Annotation\Annotation](#rudra_annotation_annotation)
+- [Rudra\Annotation\AnnotationInterface](#rudra_annotation_annotationinterface)
+- [Rudra\Annotation\AnnotationMatcher](#rudra_annotation_annotationmatcher)
 <hr>
 
-<a id="d_commands_consolecommand"></a>
+<a id="rudra_annotation_annotation"></a>
 
-### Class: D\Commands\ConsoleCommand
+### Class: Rudra\Annotation\Annotation
 | Visibility | Function |
 |:-----------|:---------|
-|public|actionIndex()<br>|
-|protected|getTable( array $data )<br>|
+|public|getAnnotations( string $className  ?string $methodName ): array<br>Get data from annotations
+-------------------------
+Получить данные из аннотаций|
+|public|getAttributes( string $className  ?string $methodName ): array<br>Get data from attributes (for php 8 and up)
+-------------------------------------------
+Получить данные из атрибутов (для php 8 и выше)|
+|private|getReflection( string $className  ?string $methodName ): ReflectionClass|ReflectionMethod<br>Provides information about a method or class
+--------------------------------------------
+Сообщает информацию о методе или классе|
+|private|parseAnnotations( string $docBlock ): array<br>Parses annotation data
+----------------------
+Разбирает данные аннотаций|
 
 
-<a id="d_commands_documentationcommand"></a>
+<a id="rudra_annotation_annotationinterface"></a>
 
-### Class: D\Commands\DocumentationCommand
+### Class: Rudra\Annotation\AnnotationInterface
 | Visibility | Function |
 |:-----------|:---------|
-|public|actionIndex()<br>      Undocumented function           |
-|protected|collectMarkdown( string $outputPath ): void<br>      Undocumented function           |
-|protected|scandir(  $inputPath   $outputPath )<br>      Undocumented function           |
-|protected|buildDocumentation(  $outputPath   $fullClassName )<br>      Undocumented function           |
-|protected|setHeader( string $fullClassName ): void<br>      Undocumented function           |
-|private|createHeaderString( string $fullClassName ): string<br>      Undocumented function           |
-|protected|setBody(  $fullClassName ): void<br>      Undocumented function           |
-|private|createBodyString( string $fullClassName ): string<br>      Undocumented function           |
+|abstract public|getAnnotations( string $className  ?string $methodName ): array<br>Get data from annotations
+-------------------------
+Получить данные из аннотаций|
+|abstract public|getAttributes( string $className  ?string $methodName ): array<br>Get data from attributes (for php 8 and up)
+-------------------------------------------
+Получить данные из атрибутов (для php 8 и выше)|
+
+
+<a id="rudra_annotation_annotationmatcher"></a>
+
+### Class: Rudra\Annotation\AnnotationMatcher
+| Visibility | Function |
+|:-----------|:---------|
+|public|getParams( array $exploded  string $assignment ): array<br>Parses parameters by key (assignment) value
+and returns an array of parameters
+----------------------------------
+Анализирует параметры по значению ключа (присваивания)
+и возвращает массив параметров|
+|private|handleData( string $data  array $exploded ): ?array<br>Parses data into key => value pairs
+-----------------------------------
+Разбирает данные в пары ключ => значение|
 <hr>

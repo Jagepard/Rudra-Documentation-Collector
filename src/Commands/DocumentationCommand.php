@@ -175,8 +175,26 @@ class DocumentationCommand
             $returnType = ($method->getReturnType()) ? ': ' .  $method->getReturnType() : null;
 
             $table .= ')' . $returnType . '<br>';
-            $table .= str_replace("*", "", strstr(str_replace("\n", "", substr($method->getDocComment(), 3, -2)), '@', true)) . '|' . "\n";
 
+            $docBlock     = substr($method->getDocComment(), 3, -2);
+            $docBlock     = str_replace("*", "", $docBlock);
+            $docBlock     = str_replace("  ", "", $docBlock);
+            $strings      = explode("\n", $docBlock);
+            $newStrings   = [];
+
+            foreach ($strings as $string) {
+                if (ctype_space($string) or $string == '' or str_contains($string, "@")) {
+                    continue;
+                }
+
+                $newStrings[] = $string;
+            }
+
+            $docBlock = implode("\n", $newStrings);
+
+            var_dump($docBlock);
+
+            $table .= $docBlock . '|' . "\n";
         }
 
         return $header . $table;
