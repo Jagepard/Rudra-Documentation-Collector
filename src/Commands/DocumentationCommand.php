@@ -164,7 +164,7 @@ class DocumentationCommand
 
         foreach ($methods as $method) {
             $table .= '|' . implode(' ', \Reflection::getModifierNames($method->getModifiers())) .
-                      '|' . '<em>' . $method->getName() . '(';
+                      '|' . '<em><strong>' . $method->getName() . '</strong>(';
 
             $params = $method->getParameters();
 
