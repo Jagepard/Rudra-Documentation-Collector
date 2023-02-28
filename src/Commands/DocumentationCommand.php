@@ -174,7 +174,7 @@ class DocumentationCommand
 
             $returnType = ($method->getReturnType()) ? ': ' .  $method->getReturnType() : null;
 
-            $table .= ')' . $returnType . '<br>';
+            $table .= ')' . $returnType . '<br><br>';
             $table .= str_replace("\n", "<br>", $method->getDocComment()) . '|' . "\n";
 
         }
