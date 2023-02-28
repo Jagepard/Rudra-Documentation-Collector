@@ -22,6 +22,6 @@ use Rudra\Cli\ConsoleFacade as Cli;
 
 parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
 
-Cli::addCommand("doc", [DocumentationCommand::class]);
+Cli::addCommand("docs", [DocumentationCommand::class]);
 Cli::addCommand("help", [ConsoleCommand::class]);
 Cli::invoke($inputArgs);
