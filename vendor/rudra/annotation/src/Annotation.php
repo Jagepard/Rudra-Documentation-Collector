@@ -89,7 +89,7 @@ class Annotation implements AnnotationInterface
      * --------------------------------------------
      * Сообщает информацию о методе или классе
      */
-    private function getReflection(string $className, ?string $methodName = null)
+    private function getReflection(string $className, ?string $methodName = null): ReflectionClass|ReflectionMethod
     {
         return isset($methodName)
             ? new ReflectionMethod($className, $methodName)

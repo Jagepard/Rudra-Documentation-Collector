@@ -7,6 +7,11 @@ use Rudra\Container\Facades\Rudra;
 
 class DocumentationCommand
 {
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function actionIndex()
     {
         $dir = dirname(dirname(__DIR__));
@@ -27,6 +32,12 @@ class DocumentationCommand
         $this->collectMarkdown($outputPath);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param  string $outputPath
+     * @return void
+     */
     protected function collectMarkdown(string $outputPath): void
     {
         file_put_contents($outputPath, '## Table of contents' . PHP_EOL, FILE_APPEND);
@@ -34,6 +45,13 @@ class DocumentationCommand
         file_put_contents($outputPath, data('body') . '<hr>', FILE_APPEND);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param  [type] $inputPath
+     * @param  [type] $outputPath
+     * @return void
+     */
     protected function scandir($inputPath, $outputPath) 
     {
         $directory = array_diff(scandir($inputPath), array('..', '.'));
@@ -64,12 +82,25 @@ class DocumentationCommand
         }
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param  [type] $outputPath
+     * @param  [type] $fullClassName
+     * @return void
+     */
     protected function buildDocumentation($outputPath, $fullClassName)
     {
         $this->setHeader($fullClassName);
         $this->setBody($fullClassName);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param  string $fullClassName
+     * @return void
+     */
     protected function setHeader(string $fullClassName): void
     {
         if (Rudra::data()->has('header')) {
@@ -84,11 +115,23 @@ class DocumentationCommand
         ]);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param  string $fullClassName
+     * @return string
+     */
     private function createHeaderString(string $fullClassName): string
     {
         return '- [' . $fullClassName . '](#' . str_replace("\\", "_", strtolower($fullClassName)) . ')' . "\n";
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param  [type] $fullClassName
+     * @return void
+     */
     protected function setBody($fullClassName): void
     {
         if (Rudra::data()->has('body')) {
@@ -103,6 +146,12 @@ class DocumentationCommand
         ]);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param  string $fullClassName
+     * @return string
+     */
     private function createBodyString(string $fullClassName): string
     {
         $header = "\n\n" . '<a id="' . str_replace("\\", "_", strtolower($fullClassName)) . '"></a>' 
@@ -123,7 +172,11 @@ class DocumentationCommand
                 $table .= ' ' . $param->getType() . ' $' . $param->getName() . ' ';
             }
 
-            $table .= ')|' . "\n";
+            $returnType = ($method->getReturnType()) ? ': ' .  $method->getReturnType() : null;
+
+            $table .= ')' . $returnType;
+            $table .= $method->getDocComment() . '|' . "\n";
+
         }
 
         return $header . $table;

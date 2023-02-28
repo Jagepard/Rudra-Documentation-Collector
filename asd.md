@@ -1,34 +1,69 @@
 ## Table of contents
-- [Rudra\Annotation\Annotation](#rudra_annotation_annotation)
-- [Rudra\Annotation\AnnotationInterface](#rudra_annotation_annotationinterface)
-- [Rudra\Annotation\AnnotationMatcher](#rudra_annotation_annotationmatcher)
+- [D\Commands\ConsoleCommand](#d_commands_consolecommand)
+- [D\Commands\DocumentationCommand](#d_commands_documentationcommand)
 <hr>
 
-<a id="rudra_annotation_annotation"></a>
+<a id="d_commands_consolecommand"></a>
 
-### Class: Rudra\Annotation\Annotation
+### Class: D\Commands\ConsoleCommand
 | Visibility | Function |
 |:-----------|:---------|
-|public|getAnnotations( string $className  ?string $methodName )|
-|public|getAttributes( string $className  ?string $methodName )|
-|private|getReflection( string $className  ?string $methodName )|
-|private|parseAnnotations( string $docBlock )|
+|public|actionIndex()|
+|protected|getTable( array $data )|
 
 
-<a id="rudra_annotation_annotationinterface"></a>
+<a id="d_commands_documentationcommand"></a>
 
-### Class: Rudra\Annotation\AnnotationInterface
+### Class: D\Commands\DocumentationCommand
 | Visibility | Function |
 |:-----------|:---------|
-|abstract public|getAnnotations( string $className  ?string $methodName )|
-|abstract public|getAttributes( string $className  ?string $methodName )|
-
-
-<a id="rudra_annotation_annotationmatcher"></a>
-
-### Class: Rudra\Annotation\AnnotationMatcher
-| Visibility | Function |
-|:-----------|:---------|
-|public|getParams( array $exploded  string $assignment )|
-|private|handleData( string $data  array $exploded )|
+|public|actionIndex()/**
+     * Undocumented function
+     *
+     * @return void
+     */|
+|protected|collectMarkdown( string $outputPath ): void/**
+     * Undocumented function
+     *
+     * @param  string $outputPath
+     * @return void
+     */|
+|protected|scandir(  $inputPath   $outputPath )/**
+     * Undocumented function
+     *
+     * @param  [type] $inputPath
+     * @param  [type] $outputPath
+     * @return void
+     */|
+|protected|buildDocumentation(  $outputPath   $fullClassName )/**
+     * Undocumented function
+     *
+     * @param  [type] $outputPath
+     * @param  [type] $fullClassName
+     * @return void
+     */|
+|protected|setHeader( string $fullClassName ): void/**
+     * Undocumented function
+     *
+     * @param  string $fullClassName
+     * @return void
+     */|
+|private|createHeaderString( string $fullClassName ): string/**
+     * Undocumented function
+     *
+     * @param  string $fullClassName
+     * @return string
+     */|
+|protected|setBody(  $fullClassName ): void/**
+     * Undocumented function
+     *
+     * @param  [type] $fullClassName
+     * @return void
+     */|
+|private|createBodyString( string $fullClassName ): string/**
+     * Undocumented function
+     *
+     * @param  string $fullClassName
+     * @return string
+     */|
 <hr>
