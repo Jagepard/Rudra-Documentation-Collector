@@ -16,7 +16,8 @@ class DocumentationCommand
 {
     public function actionIndex(): void
     {
-        $dir = dirname(dirname(__DIR__));
+        $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
+        $dir        = dirname(dirname(dirname($reflection->getFileName())));
 
         Cli::printer("Enter source directory: ", "cyan");
         $sourceDir = trim(fgets(fopen("php://stdin", "r")));
