@@ -25,6 +25,7 @@
 |private|<em><strong>createHeaderString</strong>( string $fullClassName ): string</em><br>|
 |protected|<em><strong>setBody</strong>( string $fullClassName ): void</em><br>|
 |private|<em><strong>createBodyString</strong>( string $fullClassName ): string</em><br>|
+|private|<em><strong>getAnchorName</strong>(  $className ): string</em><br>|
 <hr>
 
 ###### created with [Rudra-Markdown](#https://github.com/Jagepard/Rudra-Markdown)
