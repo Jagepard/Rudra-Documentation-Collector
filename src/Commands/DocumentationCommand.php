@@ -37,9 +37,14 @@ class DocumentationCommand
 
     protected function collectMarkdown(string $outputPath): void
     {
-        file_put_contents($outputPath, '## Table of contents' . PHP_EOL, FILE_APPEND);
+        file_put_contents($outputPath, "## Table of contents\n", FILE_APPEND);
         file_put_contents($outputPath, data('header') . '<hr>', FILE_APPEND);
         file_put_contents($outputPath, data('body') . '<hr>', FILE_APPEND);
+        file_put_contents(
+            $outputPath, 
+            "\n######<em>created with [Rudra-Markdown ](#https://github.com/Jagepard/Rudra-Markdown)</em>\n", 
+            FILE_APPEND
+        );
     }
 
     protected function scandir(string $inputPath, string $outputPath): void
