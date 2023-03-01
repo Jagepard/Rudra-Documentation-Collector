@@ -26,4 +26,5 @@
 |protected|<em><strong>setBody</strong>( string $fullClassName ): void</em><br>|
 |private|<em><strong>createBodyString</strong>( string $fullClassName ): string</em><br>|
 <hr>
-######<em>created with [Rudra-Markdown ](#https://github.com/Jagepard/Rudra-Markdown)</em>
+
+######created with [Rudra-Markdown](#https://github.com/Jagepard/Rudra-Markdown)
