@@ -42,7 +42,7 @@ class DocumentationCommand
         file_put_contents($outputPath, data('body') . '<hr>', FILE_APPEND);
         file_put_contents(
             $outputPath, 
-            "\n\n######created with [Rudra-Markdown](#https://github.com/Jagepard/Rudra-Markdown)\n", 
+            "\n\n###### created with [Rudra-Markdown](#https://github.com/Jagepard/Rudra-Markdown)\n", 
             FILE_APPEND
         );
     }
