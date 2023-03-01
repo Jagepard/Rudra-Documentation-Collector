@@ -118,18 +118,28 @@ class DocumentationCommand
 
     private function createBodyString(string $fullClassName): string
     {
-        $header = "\n\n" . '<a id="' . str_replace("\\", "_", strtolower($fullClassName)) . '"></a>' 
-                  . "\n\n" . '### Class: ' . $fullClassName  . "\n";
-        $table  = '| Visibility | Function |' . "\n" .
-                  '|:-----------|:---------|' . "\n";
+        $class      = new \ReflectionClass($fullClassName);
+        $methods    = $class->getMethods();
+        $interfaces = $class->getInterfaceNames();
+        $parent     = $class->getParentClass();
+        $header     = "\n\n" . '<a id="' . $this->getAnchorName($fullClassName) . '"></a>' 
+        . "\n\n" . '### Class: ' . $fullClassName  . "\n";
+        $table      = '| Visibility | Function |' . "\n" .
+        '|:-----------|:---------|' . "\n";
 
-        $class   = new \ReflectionClass($fullClassName);
-        $methods = $class->getMethods();
+        if ($parent) {
+            $header .= "##### extends " . '[' . $parent->getName() . '](#' . $this->getAnchorName($parent->getName()) . ')' . "\n";
+        }
+
+        if (count($interfaces) > 0) {
+            foreach ($interfaces as $interface) {
+                $header .= "##### implements " . '[' . $interface . '](#' . $this->getAnchorName($interface) . ')' . "\n";
+            }
+        }
 
         foreach ($methods as $method) {
             $table .= '|' . implode(' ', \Reflection::getModifierNames($method->getModifiers())) .
                       '|' . '<em><strong>' . $method->getName() . '</strong>(';
-
             $params = $method->getParameters();
 
             foreach ($params as $param) {
@@ -159,9 +169,14 @@ class DocumentationCommand
                 $docBlock = implode("<br>", $newStrings);
             }
 
-            $table   .= $docBlock . '|' . "\n";
+            $table .= $docBlock . '|' . "\n";
         }
 
         return $header . $table;
+    }
+
+    private function getAnchorName($className): string
+    {
+        return str_replace("\\", "_", strtolower($className));
     }
 }
