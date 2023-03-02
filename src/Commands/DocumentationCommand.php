@@ -32,10 +32,10 @@ class DocumentationCommand
         $outputPath = $dir . '/' . $fileName . '.md';
 
         $this->scandir($inputPath, $outputPath);
-        $this->collectMarkdown($outputPath);
+        $this->createMarkdown($outputPath);
     }
 
-    protected function collectMarkdown(string $outputPath): void
+    protected function createMarkdown(string $outputPath): void
     {
         file_put_contents($outputPath, "## Table of contents\n", FILE_APPEND);
         file_put_contents($outputPath, data('header') . '<hr>', FILE_APPEND);
@@ -123,7 +123,7 @@ class DocumentationCommand
         $interfaces = $class->getInterfaceNames();
         $parent     = $class->getParentClass();
         $header     = "\n\n" . '<a id="' . $this->getAnchorName($fullClassName) . '"></a>' 
-        . "\n\n" . '### Class: ' . $fullClassName  . "\n";
+        . "\n\n" . '### Class: ' . $fullClassName . "\n";
         $table      = '| Visibility | Function |' . "\n" .
         '|:-----------|:---------|' . "\n";
 
@@ -146,7 +146,7 @@ class DocumentationCommand
                 $table .= ' ' . $param->getType() . ' $' . $param->getName() . ' ';
             }
 
-            $returnType = ($method->getReturnType()) ? ': ' .  $method->getReturnType() : null;
+            $returnType = ($method->getReturnType()) ? ': ' . $method->getReturnType() : null;
             $table     .= ')' . $returnType . '</em><br>';
             $docBlock   = '';
 
