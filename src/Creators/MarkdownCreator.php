@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * @author    : Jagepard <jagepard@yandex.ru">
  * @license   https://mit-license.org/ MIT
@@ -16,7 +18,7 @@ class MarkdownCreator implements DocumentationCreatorInterface
         file_put_contents($outputPath, data('body') . '<hr>', FILE_APPEND);
         file_put_contents(
             $outputPath, 
-            "\n\n###### created with [Rudra-Markdown](#https://github.com/Jagepard/Rudra-Markdown)\n", 
+            "\n\n###### created with [Rudra-Documentation-Collector](#https://github.com/Jagepard/Rudra-Documentation-Collector)\n", 
             FILE_APPEND
         );
     }

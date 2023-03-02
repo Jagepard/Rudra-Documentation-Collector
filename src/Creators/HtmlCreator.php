@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * @author    : Jagepard <jagepard@yandex.ru">
  * @license   https://mit-license.org/ MIT
@@ -24,7 +26,7 @@ class HtmlCreator implements DocumentationCreatorInterface
         file_put_contents($outputPath, data('body') . '<hr>', FILE_APPEND);
         file_put_contents(
             $outputPath, 
-            '<h6>created with <a href="https://github.com/Jagepard/Rudra-Markdown">Rudra-Markdown</a></h6><br>', 
+            '<h6>created with <a href="https://github.com/Jagepard/Rudra-Documentation-Collector">Rudra-Documentation-Collector</a></h6><br>', 
             FILE_APPEND
         );
 
