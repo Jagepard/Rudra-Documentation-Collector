@@ -20,6 +20,7 @@
         "email": "jagepard@yandex.ru"
     },
     "require": {
+        "php"      : ">=7.4",
         "rudra/cli": "dev-main"
     },
     "bin":["bin/rudra"],
