@@ -132,6 +132,24 @@ class HtmlCreator implements DocumentationCreatorInterface
                     <body>
                     <div class="uk-container">
                 ';
+                case 'f': 
+                    return '
+                    <!DOCTYPE html>
+                    <html>
+                        <head>
+                            <title>Rudra Html Documentation</title>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1">
+            
+                            <!-- Compressed CSS -->
+                            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/css/foundation.min.css" crossorigin="anonymous">
+                            
+                            <!-- Compressed JavaScript -->
+                            <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.5/dist/js/foundation.min.js" crossorigin="anonymous"></script>
+                        </head>
+                        <body>
+                        <div class="grid-container">
+                    ';
             default:
                 return '
                 <!doctype html>
@@ -153,6 +171,8 @@ class HtmlCreator implements DocumentationCreatorInterface
         switch ($this->frameworkType) {
             case 'ui': 
                 return '</div></body></html>';
+            case 'f': 
+                return '</div></body></html>';
             default:
                 return '
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
@@ -168,6 +188,8 @@ class HtmlCreator implements DocumentationCreatorInterface
         switch ($this->frameworkType) {
             case 'ui': 
                 return 'uk-table uk-table-striped';
+            case 'f': 
+                return 'stack';
             default:
                 return 'table table-striped';
         }

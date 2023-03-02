@@ -1,6 +1,6 @@
-[![Build Status](https://scrutinizer-ci.com/g/Jagepard/Rudra-Markdown/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Jagepard/Rudra-Markdown/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Jagepard/Rudra-Markdown/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Jagepard/Rudra-Markdown/?branch=master)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/Jagepard/Rudra-Markdown/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+[![Build Status](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/?branch=master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![Maintainability](https://api.codeclimate.com/v1/badges/141448a193ba17e52b36/maintainability)](https://codeclimate.com/github/Jagepard/Rudra-Markdown/maintainability)
 [![License: MIT](https://img.shields.io/badge/license-MIT-498e7f.svg)](https://mit-license.org/)
 
