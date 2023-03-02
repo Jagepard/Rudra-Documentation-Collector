@@ -1,6 +1,6 @@
 <?php
 
-namespace Rudra\Markdown;
+namespace Rudra\Markdown\Commands;
 
 use Rudra\Cli\ConsoleFacade as Cli;
 
