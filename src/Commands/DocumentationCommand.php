@@ -41,7 +41,7 @@ class DocumentationCommand
 
         if ($fileType === 'html') {
             Cli::printer("Сhoose a framework: ", "magneta");
-            Cli::printer("(Uikit: ui)[Bootstrap: bsp]: ", "cyan");
+            Cli::printer("(Foundation: f, Uikit: ui)[Bootstrap: bsp]: ", "cyan");
             $frameworkType    = trim(fgets(fopen("php://stdin", "r")));
             $this->docCreator = new HtmlCreator($frameworkType);
             $outputPath       = $dir . '/' . $fileName . '.html';
