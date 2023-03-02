@@ -63,4 +63,4 @@
 |private|<em><strong>getAnchorName</strong>(  $className ): string</em><br>|
 <hr>
 
-###### created with [Rudra-Markdown](#https://github.com/Jagepard/Rudra-Markdown)
+###### created with [Rudra-Documentation-Collector](#https://github.com/Jagepard/Rudra-Documentation-Collector)
