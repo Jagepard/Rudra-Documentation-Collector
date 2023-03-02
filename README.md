@@ -8,7 +8,7 @@
 
 ## Install | Установка
 
-```composer require rudra/markdown```
+```composer require rudra/docs```
 
 ### Generate docs for all classes in a source directory | Создание документации для всех классов в каталоге
 ```$ ./vendor/bin/rudra docs``` 
