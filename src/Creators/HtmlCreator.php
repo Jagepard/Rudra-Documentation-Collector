@@ -35,7 +35,7 @@ class HtmlCreator implements DocumentationCreatorInterface
 
     public function createHeaderString(string $fullClassName): string
     {
-        return '<p><a href="#' . str_replace("\\", "_", strtolower($fullClassName)) . '">' . $fullClassName  . '</a></p>';
+        return '<p><a href="#' . str_replace("\\", "_", strtolower($fullClassName)) . '">' . $fullClassName . '</a></p>';
     }
 
     public function createBodyString(string $fullClassName): string
@@ -68,7 +68,7 @@ class HtmlCreator implements DocumentationCreatorInterface
         }
 
         foreach ($methods as $method) {
-            $table .= '<tr><td>' . implode(' ', \Reflection::getModifierNames($method->getModifiers())) .'</td>' . 
+            $table .= '<tr><td>' . implode(' ', \Reflection::getModifierNames($method->getModifiers())) . '</td>' . 
             '<td><em><strong>' . $method->getName() . '</strong>(';
             $params = $method->getParameters();
 
