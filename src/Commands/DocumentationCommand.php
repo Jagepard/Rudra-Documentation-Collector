@@ -7,13 +7,18 @@ declare(strict_types = 1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Markdown;
+namespace Rudra\Markdown\Commands;
 
 use Rudra\Cli\ConsoleFacade as Cli;
 use Rudra\Container\Facades\Rudra;
+use Rudra\Markdown\Creators\MarkdownCreator;
+use Rudra\Markdown\Creators\DocumentationCreatorInterface;
+use Rudra\Markdown\Creators\HtmlCreator;
 
 class DocumentationCommand
 {
+    protected DocumentationCreatorInterface $docCreator;
+
     public function actionIndex(): void
     {
         $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
@@ -28,23 +33,27 @@ class DocumentationCommand
         }
 
         Cli::printer("Enter file name: ", "cyan");
-        $fileName   = trim(fgets(fopen("php://stdin", "r")));
-        $outputPath = $dir . '/' . $fileName . '.md';
+        $fileName = trim(fgets(fopen("php://stdin", "r")));
+
+        Cli::printer("Enter output type: ", "magneta");
+        Cli::printer("(Html: html)[Markdowm: md]: ", "cyan");
+        $fileType = trim(fgets(fopen("php://stdin", "r")));
+
+        if ($fileType === 'html') {
+            Cli::printer("Сhoose a framework: ", "magneta");
+            Cli::printer("(Uikit: ui)[Bootstrap: bsp]: ", "cyan");
+            $frameworkType    = trim(fgets(fopen("php://stdin", "r")));
+            $this->docCreator = new HtmlCreator($frameworkType);
+            $outputPath       = $dir . '/' . $fileName . '.html';
+        } else {
+            $this->docCreator = new MarkdownCreator();
+            $outputPath       = $dir . '/' . $fileName . '.md';
+        }
 
         $this->scandir($inputPath, $outputPath);
-        $this->createMarkdown($outputPath);
-    }
+        $this->docCreator->createDocs($outputPath);
 
-    protected function createMarkdown(string $outputPath): void
-    {
-        file_put_contents($outputPath, "## Table of contents\n", FILE_APPEND);
-        file_put_contents($outputPath, data('header') . '<hr>', FILE_APPEND);
-        file_put_contents($outputPath, data('body') . '<hr>', FILE_APPEND);
-        file_put_contents(
-            $outputPath, 
-            "\n\n###### created with [Rudra-Markdown](#https://github.com/Jagepard/Rudra-Markdown)\n", 
-            FILE_APPEND
-        );
+        Cli::printer("Documentation: " . $outputPath . " created\n", "green");
     }
 
     protected function scandir(string $inputPath, string $outputPath): void
@@ -63,7 +72,8 @@ class DocumentationCommand
                         $fullClassName = $match[1] . "\\" . $className;
 
                         if (class_exists($fullClassName) or interface_exists($fullClassName) or trait_exists($fullClassName)) {
-                            $this->buildDocumentation($outputPath, $fullClassName);
+                            $this->setData($fullClassName);
+                            $this->setData($fullClassName, "body");
                         }
                     }
                 }
@@ -77,106 +87,17 @@ class DocumentationCommand
         }
     }
 
-    protected function buildDocumentation(string $outputPath, string $fullClassName):  void
+    protected function setData(string $fullClassName, string $type = 'header'): void
     {
-        $this->setHeader($fullClassName);
-        $this->setBody($fullClassName);
-    }
+        $methodName = "create" . ucfirst($type) . "String";
 
-    protected function setHeader(string $fullClassName): void
-    {
-        if (Rudra::data()->has('header')) {
+        if (Rudra::data()->has($type)) {
             data([
-                'header' => data('header') . $this->createHeaderString($fullClassName)
+                $type => data($type) . $this->docCreator->{$methodName}($fullClassName)
             ]);
             return;
         }
 
-        data([
-            'header' => $this->createHeaderString($fullClassName)
-        ]);
-    }
-
-    private function createHeaderString(string $fullClassName): string
-    {
-        return '- [' . $fullClassName . '](#' . str_replace("\\", "_", strtolower($fullClassName)) . ')' . "\n";
-    }
-
-    protected function setBody(string $fullClassName): void
-    {
-        if (Rudra::data()->has('body')) {
-            data([
-                'body' => data('body') . $this->createBodyString($fullClassName)
-            ]);
-            return;
-        }
-
-        data([
-            'body' => $this->createBodyString($fullClassName)
-        ]);
-    }
-
-    private function createBodyString(string $fullClassName): string
-    {
-        $class      = new \ReflectionClass($fullClassName);
-        $methods    = $class->getMethods();
-        $interfaces = $class->getInterfaceNames();
-        $parent     = $class->getParentClass();
-        $header     = "\n\n" . '<a id="' . $this->getAnchorName($fullClassName) . '"></a>' 
-        . "\n\n" . '### Class: ' . $fullClassName . "\n";
-        $table      = '| Visibility | Function |' . "\n" .
-        '|:-----------|:---------|' . "\n";
-
-        if ($parent) {
-            $header .= "##### extends " . '[' . $parent->getName() . '](#' . $this->getAnchorName($parent->getName()) . ')' . "\n";
-        }
-
-        if (count($interfaces) > 0) {
-            foreach ($interfaces as $interface) {
-                $header .= "##### implements " . '[' . $interface . '](#' . $this->getAnchorName($interface) . ')' . "\n";
-            }
-        }
-
-        foreach ($methods as $method) {
-            $table .= '|' . implode(' ', \Reflection::getModifierNames($method->getModifiers())) .
-                      '|' . '<em><strong>' . $method->getName() . '</strong>(';
-            $params = $method->getParameters();
-
-            foreach ($params as $param) {
-                $table .= ' ' . $param->getType() . ' $' . $param->getName() . ' ';
-            }
-
-            $returnType = ($method->getReturnType()) ? ': ' . $method->getReturnType() : null;
-            $table     .= ')' . $returnType . '</em><br>';
-            $docBlock   = '';
-
-            if ($method->getDocComment()) {
-                $docBlock   = substr($method->getDocComment(), 3, -2);
-                $docBlock   = str_replace("*", "", $docBlock);
-                $docBlock   = str_replace("  ", "", $docBlock);
-                $docBlock   = str_replace("-", "", $docBlock);
-                $strings    = explode("\n", $docBlock);
-                $newStrings = [];
-    
-                foreach ($strings as $string) {
-                    if (ctype_space($string) or $string == '' or str_contains($string, "@")) {
-                        continue;
-                    }
-    
-                    $newStrings[] = $string;
-                }
-    
-                $docBlock = implode("<br>", $newStrings);
-            }
-
-            $table .= $docBlock . '|' . "\n";
-        }
-
-        return $header . $table;
-    }
-
-    private function getAnchorName($className): string
-    {
-        return str_replace("\\", "_", strtolower($className));
+        data([$type => $this->docCreator->{$methodName}($fullClassName)]);
     }
 }
