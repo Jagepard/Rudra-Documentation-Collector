@@ -27,7 +27,10 @@
     "autoload": {
         "psr-4": {
             "Rudra\\Markdown\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "minimum-stability": "dev"
 }
