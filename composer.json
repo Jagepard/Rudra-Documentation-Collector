@@ -21,7 +21,8 @@
     },
     "require": {
         "php"      : ">=7.4",
-        "rudra/cli": "dev-main"
+        "rudra/cli": "dev-main",
+        "rudra/container": "dev-master"
     },
     "bin":["bin/rudra"],
     "autoload": {
