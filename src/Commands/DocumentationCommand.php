@@ -91,7 +91,7 @@ class DocumentationCommand
     {
         $methodName = "create" . ucfirst($type) . "String";
 
-        if (Rudra::data()->has($type)) {
+        if (Rudra::shared()->has($type)) {
             data([
                 $type => data($type) . $this->docCreator->{$methodName}($fullClassName)
             ]);
