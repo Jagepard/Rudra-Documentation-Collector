@@ -1,4 +1,3 @@
-[![Build Status](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/?branch=master)
 [![CodeFactor](https://www.codefactor.io/repository/github/jagepard/rudra-documentation-collector/badge)](https://www.codefactor.io/repository/github/jagepard/rudra-documentation-collector)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/Jagepard/Rudra-Documentation-Collector/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
