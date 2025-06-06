@@ -1,37 +1,41 @@
 {
-    "name"             : "rudra/docs",
-    "description"      : "Command line tool for generating markdown-formatted class documentation",
-    "type"             : "library",
-    "keywords"         : [
+    "name": "rudra/docs",
+    "description": "Command line tool for generating markdown-formatted class documentation",
+    "type": "library",
+    "keywords": [
         "rudra",
         "markdown",
         "generator"
     ],
-    "license"          : "MIT",
-    "authors"          : [
+    "license": "MIT",
+    "authors": [
         {
-            "name"    : "Jagepard",
-            "email"   : "jagepard@yandex.ru",
-            "homepage": "https://jagepard.ru",
-            "role"    : "Developer"
+            "name": "Jagepard",
+            "email": "jagepard@yandex.ru",
+            "homepage": "https://jagepard.ru",    
+            "role": "Developer"
         }
     ],
-    "support"          : {
-        "email": "jagepard@yandex.ru"
+    "support": {
+        "email": "jagepard@yandex.ru",
+        "issues": "https://github.com/Jagepard/Rudra-Docs/issues",    
+        "source": "https://github.com/Jagepard/Rudra-Docs"    
     },
     "require": {
-        "php"      : ">=7.4",
-        "rudra/cli": "dev-main",
-        "rudra/container": "dev-master"
+        "php": ">=8.3",
+        "rudra/cli": "self.version",
+        "rudra/container": "self.version"
     },
-    "bin":["bin/rudra"],
     "autoload": {
         "psr-4": {
             "Rudra\\Markdown\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "platform-check": false
+    }
 }

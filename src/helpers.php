@@ -4,8 +4,8 @@ if (!function_exists('str_contains')) {
     /**
      * Polyfills the str_contains function for earlier versions of PHP
      *
-     * @param  [type] $haystack
-     * @param  [type] $needle
+     * @param  $haystack
+     * @param  $needle
      * @return void
      */
     function str_contains($haystack, $needle) {
