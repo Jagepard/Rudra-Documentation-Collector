@@ -11,7 +11,7 @@
 ```composer require rudra/docs```
 
 ### Generate docs for all classes in a source directory | Создание документации для всех классов в каталоге
-```$ ./vendor/bin/rudra docs``` 
+```$ ./vendor/bin/rudra-docs``` 
 ### Specify the path of the required folder with classes | Указываем путь необходимой папки с классами
 ```Enter source directory: src``` or | или ```Enter source directory: vendor/rudra/cli```
 
