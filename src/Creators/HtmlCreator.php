@@ -11,13 +11,20 @@ namespace Rudra\Markdown\Creators;
 
 class HtmlCreator implements DocumentationCreatorInterface
 {
-    protected string $frameworkType;
+    private string $frameworkType;
 
+    /**
+     * @param string $frameworkType
+     */
     public function __construct(string $frameworkType = 'bsp')
     {
         $this->frameworkType = $frameworkType;
     }
 
+    /**
+     * @param string $outputPath
+     * @return void
+     */
     public function createDocs(string $outputPath): void
     {
         file_put_contents($outputPath, $this->setHtmlHeader(), FILE_APPEND);
@@ -33,11 +40,19 @@ class HtmlCreator implements DocumentationCreatorInterface
         file_put_contents($outputPath, $this->setHtmlFooter(), FILE_APPEND);
     }
 
+    /**
+     * @param string $fullClassName
+     * @return string
+     */
     public function createHeaderString(string $fullClassName): string
     {
         return '<p><a href="#' . str_replace("\\", "_", strtolower($fullClassName)) . '">' . $fullClassName . '</a></p>';
     }
 
+    /**
+     * @param string $fullClassName
+     * @return string
+     */
     public function createBodyString(string $fullClassName): string
     {
         $class      = new \ReflectionClass($fullClassName);
@@ -105,12 +120,19 @@ class HtmlCreator implements DocumentationCreatorInterface
         return $header . $table . '</table>';
     }
 
-    private function getAnchorName($className): string
+    /**
+     * @param string $className
+     * @return string
+     */
+    private function getAnchorName(string $className): string
     {
         return str_replace("\\", "_", strtolower($className));
     }
 
-    protected function setHtmlHeader(): string
+    /**
+     * @return string
+     */
+    private function setHtmlHeader(): string
     {
         switch ($this->frameworkType) {
             case 'ui': 
@@ -166,11 +188,13 @@ class HtmlCreator implements DocumentationCreatorInterface
         }
     }
 
-    protected function setHtmlFooter(): string
+    /**
+     * @return string
+     */
+    private function setHtmlFooter(): string
     {
         switch ($this->frameworkType) {
-            case 'ui': 
-                return '</div></body></html>';
+            case 'ui':
             case 'f': 
                 return '</div></body></html>';
             default:
@@ -183,7 +207,10 @@ class HtmlCreator implements DocumentationCreatorInterface
         }
     }
 
-    protected function setTableClass(): string
+    /**
+     * @return string
+     */
+    private function setTableClass(): string
     {
         switch ($this->frameworkType) {
             case 'ui': 

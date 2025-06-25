@@ -17,7 +17,7 @@ use Rudra\Markdown\Creators\DocumentationCreatorInterface;
 
 class DocumentationCommand
 {
-    protected DocumentationCreatorInterface $docCreator;
+    private DocumentationCreatorInterface $docCreator;
 
     public function actionIndex(): void
     {
@@ -53,22 +53,27 @@ class DocumentationCommand
         $this->scandir($inputPath, $outputPath);
         $this->docCreator->createDocs($outputPath);
 
-        Cli::printer("Documentation: " . $outputPath . " created\n", "green");
+        Cli::printer("✅ Documentation: " . $outputPath . " created\n", "green");
     }
 
-    protected function scandir(string $inputPath, string $outputPath): void
+    /**
+     * Recursively scans a directory for PHP classes and processes files with uppercase filenames.
+     * 
+     * @param  string $inputPath
+     * @param  string $outputPath
+     * @return void
+     */
+    private function scandir(string $inputPath, string $outputPath): void
     {
         $directory = array_diff(scandir($inputPath), array('..', '.'));
 
         foreach($directory as $item) {
             if (str_contains($item, ".php")) {
                 if (ctype_upper($item[0])) {
-
                     $fileContent = file_get_contents($inputPath . '/' . $item);
                     $className   = str_replace(".php", "", $item);
 
                     if (preg_match('/namespace[\\s]+([A-Za-z0-9\\\\]+?);/sm', $fileContent, $match)) {
-
                         $fullClassName = $match[1] . "\\" . $className;
 
                         if (class_exists($fullClassName) or interface_exists($fullClassName) or trait_exists($fullClassName)) {
@@ -87,7 +92,14 @@ class DocumentationCommand
         }
     }
 
-    protected function setData(string $fullClassName, string $type = 'header'): void
+    /**
+     * Generates and appends documentation content for a class based on the specified type.
+     * 
+     * @param  string $fullClassName
+     * @param  string $type
+     * @return void
+     */
+    private function setData(string $fullClassName, string $type = 'header'): void
     {
         $methodName = "create" . ucfirst($type) . "String";
 
