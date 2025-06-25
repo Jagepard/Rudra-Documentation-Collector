@@ -96,27 +96,43 @@ class MarkdownCreator implements DocumentationCreatorInterface
      */
     private function extractDocBlockDescription(\ReflectionMethod $method): string
     {
-        if (!$method->getDocComment()) {
+        // Return an empty string if no DocBlock is found.
+        if (!$docBlock = $method->getDocComment()) {
             return '';
         }
 
-        $docBlockRaw = substr($method->getDocComment(), 3, -2); // Убираем /**
+        // Remove /** and */ from the DocBlock and split it into lines.
+        $docBlockRaw = substr($docBlock, 3, -2);
         $lines = explode("\n", $docBlockRaw);
         $descriptionLines = [];
 
         foreach ($lines as $line) {
-            $cleanLine = trim(str_replace(['*', '  '], '', $line));
+            // Clean the line: remove * and extra spaces/tabs.
+            $cleanLine = trim(str_replace(['*', '  ', "\t"], '', $line));
 
+            // Stop processing when encountering a tag (e.g., @param, @return).
             if (str_starts_with($cleanLine, '@')) {
                 break;
             }
 
+            // Escape `$` and `|` only if they are not inside backticks.
+            $cleanLine = preg_replace_callback('/(`.*?`)|([\$|])/', function ($matches) {
+                // If inside backticks, leave unchanged.
+                if (!empty($matches[1])) {
+                    return $matches[1];
+                }
+                // Otherwise, escape `$` or `|`.
+                return '\\' . $matches[2];
+            }, $cleanLine);
+
+            // Add non-empty lines to the description.
             if (!empty($cleanLine)) {
                 $descriptionLines[] = $cleanLine;
             }
         }
 
-        return !empty($descriptionLines) ? implode('<br>', $descriptionLines) : '';
+        // Join all description lines with <br> for Markdown compatibility.
+        return implode('<br>', $descriptionLines);
     }
 
     /**
