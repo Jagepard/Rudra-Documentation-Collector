@@ -11,6 +11,10 @@ namespace Rudra\Markdown\Creators;
 
 class MarkdownCreator implements DocumentationCreatorInterface
 {
+    /**
+     * @param string $outputPath
+     * @return void
+     */
     public function createDocs(string $outputPath): void
     {
         file_put_contents($outputPath, "## Table of contents\n", FILE_APPEND);
@@ -23,71 +27,162 @@ class MarkdownCreator implements DocumentationCreatorInterface
         );
     }
 
+    /**
+     * @param string $fullClassName
+     * @return string
+     */
     public function createHeaderString(string $fullClassName): string
     {
         return '- [' . $fullClassName . '](#' . str_replace("\\", "_", strtolower($fullClassName)) . ')' . "\n";
     }
 
+    /**
+     * @param string $fullClassName
+     * @return string
+     */
     public function createBodyString(string $fullClassName): string
     {
-        $class      = new \ReflectionClass($fullClassName);
-        $methods    = $class->getMethods();
-        $interfaces = $class->getInterfaceNames();
-        $parent     = $class->getParentClass();
-        $header     = "\n\n" . '<a id="' . $this->getAnchorName($fullClassName) . '"></a>' 
-        . "\n\n" . '### Class: ' . $fullClassName . "\n";
-        $table      = '| Visibility | Function |' . "\n" .
-        '|:-----------|:---------|' . "\n";
+        // Create a ReflectionClass instance to analyze the class structure.
+        $class   = new \ReflectionClass($fullClassName);
+        $methods = $class->getMethods();
 
-        if ($parent) {
-            $header .= "##### extends " . '[' . $parent->getName() . '](#' . $this->getAnchorName($parent->getName()) . ')' . "\n";
-        }
+        // Generate the header section with an anchor link for navigation.
+        $header  = "\n\n" . '<a id="' . $this->getAnchorName($fullClassName) . '"></a>';
+        $header .= "\n\n### Class: " . $fullClassName . "\n";
 
-        if (count($interfaces) > 0) {
-            foreach ($interfaces as $interface) {
-                $header .= "##### implements " . '[' . $interface . '](#' . $this->getAnchorName($interface) . ')' . "\n";
-            }
-        }
+        // Initialize the Markdown table structure with headers.
+        $table   = "| Visibility | Function |\n|:-----------|:---------|\n";
 
+        // Loop through all methods of the class.
         foreach ($methods as $method) {
-            $table .= '|' . implode(' ', \Reflection::getModifierNames($method->getModifiers())) .
-                      '|' . '<em><strong>' . $method->getName() . '</strong>(';
-            $params = $method->getParameters();
+            // Get visibility modifiers (e.g., public, protected, static).
+            $modifiers = implode(' ', \Reflection::getModifierNames($method->getModifiers()));
 
-            foreach ($params as $param) {
-                $table .= ' ' . $param->getType() . ' $' . $param->getName() . ' ';
+            // Start building the method signature.
+            $signature = '`' . $method->getName() . '(';
+            $params    = [];
+
+            // Process each parameter of the method.
+            foreach ($method->getParameters() as $param) {
+                $type = '';
+
+                if ($param->getType()) {
+                    $reflectionType = $param->getType();
+
+                    // Handle union types (e.g., string|int|string|null).
+                    if ($reflectionType instanceof \ReflectionUnionType) {
+                        $types = [];
+
+                        // Extract each type from the union and store it in an array.
+                        foreach ($reflectionType->getTypes() as $typePart) {
+                            $typeName = (string)$typePart;
+                            $types[] = $typeName;
+                        }
+
+                        // Join the types with '|' (escaped later).
+                        $type = implode('|', $types);
+                    } else {
+                        // Handle single types (e.g., string, ?callable).
+                        $type = (string)$reflectionType;
+
+                        // Add '?' prefix for nullable types if not already present.
+                        if ($reflectionType->allowsNull() && !str_starts_with($type, '?')) {
+                            $type = '?' . $type;
+                        }
+                    }
+
+                    // Escape '|' characters for Markdown compatibility.
+                    $type = str_replace('|', '\|', $type);
+                }
+
+                // Append the parameter type and name to the list of parameters.
+                $params[] = $type . ' $' . $param->getName();
             }
 
-            $returnType = ($method->getReturnType()) ? ': ' . $method->getReturnType() : null;
-            $table     .= ')' . $returnType . '</em><br>';
+            // Join all parameters with commas and close the method signature.
+            $signature .= implode(', ', $params) . ')';
+
+            // Handle return type of the method.
+            $returnType = $method->getReturnType();
+            $returnTypeName = '';
+
+            if ($returnType) {
+                if ($returnType instanceof \ReflectionUnionType) {
+                    $types = [];
+
+                    // Extract each type from the union return type.
+                    foreach ($returnType->getTypes() as $typePart) {
+                        $types[] = (string)$typePart;
+                    }
+
+                    // Join the types with '|' (escaped later).
+                    $returnTypeName = implode('|', $types);
+                } else {
+                    // Handle single return types (e.g., string, ?int).
+                    $returnTypeName = (string)$returnType;
+
+                    // Add '?' prefix for nullable return types if not already present.
+                    if ($returnType->allowsNull() && !str_starts_with($returnTypeName, '?')) {
+                        $returnTypeName = '?' . $returnTypeName;
+                    }
+                }
+
+                // Escape '|' characters for Markdown compatibility.
+                $returnTypeName = str_replace('|', '\|', $returnTypeName);
+
+                // Append the return type to the method signature.
+                $signature .= ': ' . $returnTypeName;
+            }
+
+            // Close the method signature with backticks.
+            $signature .= '`';
+
+            // Extract the description from the DocBlock comment.
             $docBlock   = '';
 
             if ($method->getDocComment()) {
-                $docBlock   = substr($method->getDocComment(), 3, -2);
-                $docBlock   = str_replace("*", "", $docBlock);
-                $docBlock   = str_replace("  ", "", $docBlock);
-                $docBlock   = str_replace("-", "", $docBlock);
-                $strings    = explode("\n", $docBlock);
-                $newStrings = [];
-    
-                foreach ($strings as $string) {
-                    if (ctype_space($string) or $string == '' or str_contains($string, "@")) {
-                        continue;
+                // Remove the leading /** and trailing */ from the DocBlock.
+                $docBlockRaw = substr($method->getDocComment(), 3, -2);
+                $lines = explode("\n", $docBlockRaw);
+                $descriptionLines = [];
+
+                foreach ($lines as $line) {
+                    // Clean up the line by removing unnecessary characters (*, -, spaces).
+                    $cleanLine = trim(str_replace(['*', '-', '  '], '', $line));
+
+                    // Stop processing if we encounter a tag (e.g., @param, @return).
+                    if (str_starts_with($cleanLine, '@')) {
+                        break;
                     }
-    
-                    $newStrings[] = $string;
+
+                    // Collect non-empty lines as part of the description.
+                    if (!empty($cleanLine)) {
+                        $descriptionLines[] = $cleanLine;
+                    }
                 }
-    
-                $docBlock = implode("<br>", $newStrings);
+
+                // Combine the description lines into a single string.
+                if (!empty($descriptionLines)) {
+                    $docBlock = implode(' ', $descriptionLines);
+                }
             }
 
-            $table .= $docBlock . '|' . "\n";
+            // Combine the method signature and description into one column.
+            $functionColumn = $signature . "<br>" . $docBlock;
+
+            // Add the row to the Markdown table.
+            $table .= "| {$modifiers} | {$functionColumn} |\n";
         }
 
+        // Return the full Markdown output (header + table).
         return $header . $table;
     }
 
-    private function getAnchorName($className): string
+    /**
+     * @param string $className
+     * @return string
+     */
+    private function getAnchorName(string $className): string
     {
         return str_replace("\\", "_", strtolower($className));
     }

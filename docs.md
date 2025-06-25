@@ -58,7 +58,7 @@
 | public | `createDocs(string $outputPath): void`<br> |
 | public | `createHeaderString(string $fullClassName): string`<br> |
 | public | `createBodyString(string $fullClassName): string`<br> |
-| private | `getAnchorName( $className): string`<br> |
+| private | `getAnchorName(string $className): string`<br> |
 <hr>
 
 ###### created with [Rudra-Documentation-Collector](#https://github.com/Jagepard/Rudra-Documentation-Collector)
