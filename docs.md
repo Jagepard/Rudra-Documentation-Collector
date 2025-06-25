@@ -58,6 +58,10 @@
 | public | `createDocs(string $outputPath): void`<br> |
 | public | `createHeaderString(string $fullClassName): string`<br> |
 | public | `createBodyString(string $fullClassName): string`<br> |
+| private | `buildMethodSignature(ReflectionMethod $method): string`<br>Builds the method signature with parameters and return type. |
+| private | `extractDocBlockDescription(ReflectionMethod $method): string`<br>Extracts the description from the DocBlock of a method. |
+| private | `getParameterTypeAndName(ReflectionParameter $param): string`<br>Gets the type and name of a parameter. |
+| private | `getTypeAsString(ReflectionType $type): string`<br>Converts a ReflectionType to a string representation. |
 | private | `getAnchorName(string $className): string`<br> |
 <hr>
 
