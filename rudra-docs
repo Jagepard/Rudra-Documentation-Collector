@@ -11,7 +11,10 @@ use Rudra\Markdown\Commands\DocumentationCommand;
 
 parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
 
+Cli::addCommand("make:docs", [DocumentationCommand::class]);
 Cli::addCommand("create", [DocumentationCommand::class]);
 Cli::addCommand("run", [DocumentationCommand::class]);
 Cli::addCommand("help", [ConsoleCommand::class]);
+Cli::addCommand("h", [ConsoleCommand::class]);
+Cli::addCommand("", [ConsoleCommand::class]);
 Cli::invoke($inputArgs);

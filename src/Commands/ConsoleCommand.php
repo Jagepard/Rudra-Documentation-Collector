@@ -6,20 +6,26 @@ use Rudra\Cli\ConsoleFacade as Cli;
 
 class ConsoleCommand
 {
-    public function actionIndex()
+    public function actionIndex(): void
     {
-        $mask = "|%-5.5s |%-20.20s|%-45.45s|%-20.20s| x |\n";
-        printf("\e[1;35m" . $mask . "\e[m", " ", "command", "controller", "action");
-        $this->getTable(Cli::getRegistry());
+        $mask = "| %-2s | %-10s | %-45s | %-12s |" . PHP_EOL;
+        $frame = "\e[1;34m+----+------------+-----------------------------------------------+--------------+\e[m" . PHP_EOL;
+
+        echo $frame;
+        printf("\e[1;95m" . $mask . "\e[m", "#", "Command", "Controller", "Action");
+        echo $frame;
+        $this->getTable(Cli::getRegistry(), $mask);
+        echo $frame;
     }
 
-    protected function getTable(array $data)
+    protected function getTable(array $data, string $mask): void
     {
-        $mask = "|%-5.5s |%-20.20s|%-45.45s|%-20.20s| x |\n";
-        $i    = 1;
+        $i = 1;
+        $colors = ["\e[0;36m", "\e[0;32m"]; // чередующиеся цвета строк
 
         foreach ($data as $name => $routes) {
-            printf("\e[1;90m" . $mask . "\e[m", $i, $name, $routes[0], $routes[1] ?? "actionIndex");
+            $color = $colors[($i - 1) % 2];
+            printf($color . $mask . "\e[m", $i, $name, $routes[0], $routes[1] ?? "actionIndex");
             $i++;
         }
     }
