@@ -24,7 +24,7 @@ class DocumentationCommand
         $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
         $dir        = dirname(dirname(dirname($reflection->getFileName())));
 
-        Cli::printer("Enter source directory: ", "cyan");
+        Cli::printer("Enter source directory: ", "magneta");
         $sourceDir = trim(fgets(fopen("php://stdin", "r")));
         $inputPath = $dir . '/' . $sourceDir;
 
@@ -32,16 +32,16 @@ class DocumentationCommand
             throw new \InvalidArgumentException();
         }
 
-        Cli::printer("Enter file name: ", "cyan");
+        Cli::printer("Enter file name: ", "magneta");
         $fileName = trim(fgets(fopen("php://stdin", "r")));
 
         Cli::printer("Enter output type: ", "magneta");
-        Cli::printer("(Html: html)[Markdowm: md]: ", "cyan");
+        Cli::printer("(Html: html)[Markdowm: md]: ", "magneta");
         $fileType = trim(fgets(fopen("php://stdin", "r")));
 
         if ($fileType === 'html') {
             Cli::printer("Сhoose a framework: ", "magneta");
-            Cli::printer("(Foundation: f, Uikit: ui)[Bootstrap: bsp]: ", "cyan");
+            Cli::printer("(Foundation: f, Uikit: ui)[Bootstrap: bsp]: ", "magneta");
             $frameworkType    = trim(fgets(fopen("php://stdin", "r")));
             $this->docCreator = new HtmlCreator($frameworkType);
             $outputPath       = $dir . '/' . $fileName . '.html';
