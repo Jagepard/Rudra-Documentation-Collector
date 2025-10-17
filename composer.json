@@ -23,8 +23,8 @@
     },
     "require": {
         "php": ">=8.3",
-        "rudra/cli": "v25.10",
-        "rudra/container": "v25.10"
+        "rudra/cli": "self.version",
+        "rudra/container": "self.version"
     },
     "autoload": {
         "psr-4": {
