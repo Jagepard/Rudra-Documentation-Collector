@@ -10,11 +10,10 @@
 ### Generate docs for all classes in a source directory | Создание документации для всех классов в каталоге
 ```$ ./vendor/bin/rudra-docs```
 
-### Добавить команду в Rudra-Framework
-```php
-use Rudra\Markdown\Command\MakeDocumentation;
-
-Cli::addCommand("make:docs", [MakeDocumentation::class]);
+### Добавить команду в Rudra-Framework ```config/commands.yml```
+```yml
+make:docs:
+  - Rudra\Markdown\Command\MakeDocumentation
 ```
 
 ### Specify the path of the required folder with classes | Указываем путь необходимой папки с классами
