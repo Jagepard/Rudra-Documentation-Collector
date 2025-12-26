@@ -8,7 +8,14 @@
 ```composer require rudra/docs```
 
 ### Generate docs for all classes in a source directory | Создание документации для всех классов в каталоге
-```$ ./vendor/bin/rudra make:docs```
+```$ ./vendor/bin/rudra-docs```
+
+### Добавить команду в Rudra-Framework
+```php
+use Rudra\Markdown\Command\MakeDocumentation;
+
+Cli::addCommand("make:docs", [MakeDocumentation::class]);
+```
 
 ### Specify the path of the required folder with classes | Указываем путь необходимой папки с классами
 ```Enter source directory: src``` or | или ```Enter source directory: vendor/rudra/cli```
