@@ -1,23 +1,23 @@
 ## Table of contents
-- [Rudra\Markdown\Commands\ConsoleCommand](#rudra_markdown_commands_consolecommand)
-- [Rudra\Markdown\Commands\DocumentationCommand](#rudra_markdown_commands_documentationcommand)
+- [Rudra\Markdown\Command\Help](#rudra_markdown_command_help)
+- [Rudra\Markdown\Command\MakeDocumentation](#rudra_markdown_command_makedocumentation)
 - [Rudra\Markdown\Creators\DocumentationCreatorInterface](#rudra_markdown_creators_documentationcreatorinterface)
 - [Rudra\Markdown\Creators\HtmlCreator](#rudra_markdown_creators_htmlcreator)
 - [Rudra\Markdown\Creators\MarkdownCreator](#rudra_markdown_creators_markdowncreator)
 <hr>
 
-<a id="rudra_markdown_commands_consolecommand"></a>
+<a id="rudra_markdown_command_help"></a>
 
-### Class: Rudra\Markdown\Commands\ConsoleCommand
+### Class: Rudra\Markdown\Command\Help
 | Visibility | Function |
 |:-----------|:---------|
 | public | `actionIndex(): void`<br> |
 | protected | `getTable(array $data, string $mask): void`<br> |
 
 
-<a id="rudra_markdown_commands_documentationcommand"></a>
+<a id="rudra_markdown_command_makedocumentation"></a>
 
-### Class: Rudra\Markdown\Commands\DocumentationCommand
+### Class: Rudra\Markdown\Command\MakeDocumentation
 | Visibility | Function |
 |:-----------|:---------|
 | public | `actionIndex(): void`<br> |
@@ -59,8 +59,8 @@
 | public | `createHeaderString(string $fullClassName): string`<br> |
 | public | `createBodyString(string $fullClassName): string`<br> |
 | private | `buildMethodSignature(ReflectionMethod $method): string`<br>Builds the method signature with parameters and return type. |
-| private | `extractDocBlockDescription(ReflectionMethod $method): string`<br>Extracts the description from the DocBlock of a method. |
-| private | `getParameterTypeAndName(ReflectionParameter $param): string`<br>Gets the type and name of a parameter. |
+| private | `extractDocBlockDescription(ReflectionMethod $method): string`<br> |
+| private | `getParameterTypeAndName(ReflectionParameter $param): string`<br> |
 | private | `getTypeAsString(ReflectionType $type): string`<br>Converts a ReflectionType to a string representation. |
 | private | `getAnchorName(string $className): string`<br> |
 <hr>

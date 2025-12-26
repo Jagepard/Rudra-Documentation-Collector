@@ -1,10 +1,19 @@
 <?php
 
-namespace Rudra\Markdown\Commands;
+/**
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * @author  Korotkov Danila (Jagepard) <jagepard@yandex.ru>
+ * @license https://mozilla.org/MPL/2.0/  MPL-2.0
+ */
+
+namespace Rudra\Markdown\Command;
 
 use Rudra\Cli\ConsoleFacade as Cli;
 
-class ConsoleCommand
+class Help
 {
     public function actionIndex(): void
     {
