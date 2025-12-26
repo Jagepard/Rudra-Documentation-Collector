@@ -17,12 +17,11 @@ foreach($autoLoadPaths as $autoloader) {
 }
 
 use Rudra\Cli\ConsoleFacade as Cli;
-use Rudra\Markdown\Commands\ConsoleCommand;
-use Rudra\Markdown\Commands\DocumentationCommand;
+use Rudra\Markdown\Command\Help;
+use Rudra\Markdown\Command\MakeDocumentation;
 
 parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
 
-Cli::addCommand("create", [DocumentationCommand::class]);
-Cli::addCommand("run", [DocumentationCommand::class]);
-Cli::addCommand("help", [ConsoleCommand::class]);
+Cli::addCommand("make:docs", [MakeDocumentation::class]);
+Cli::addCommand("help", [Help::class]);
 Cli::invoke($inputArgs);

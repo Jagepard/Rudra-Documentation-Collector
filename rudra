@@ -1,0 +1,17 @@
+#!/usr/bin/php
+<?php
+
+if (php_sapi_name() !== "cli") exit;
+
+require __DIR__ . "/vendor/autoload.php";
+
+use Rudra\Cli\ConsoleFacade as Cli;
+use Rudra\Markdown\Command\Help;
+use Rudra\Markdown\Command\MakeDocumentation;
+
+parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
+
+Cli::addCommand("make:docs", [MakeDocumentation::class]);
+Cli::addCommand("help", [Help::class]);
+Cli::addCommand("", [Help::class]);
+Cli::invoke($inputArgs);
