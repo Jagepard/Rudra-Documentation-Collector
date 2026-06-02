@@ -13,89 +13,108 @@ namespace Rudra\Markdown\Command;
 
 use Rudra\Container\Facades\Rudra;
 use Rudra\Cli\ConsoleFacade as Cli;
-use Rudra\Markdown\Creators\HtmlCreator;
-use Rudra\Markdown\Creators\MarkdownCreator;
-use Rudra\Markdown\Creators\DocumentationCreatorInterface;
+use Rudra\Markdown\Renderers\HtmlRenderer;
+use Rudra\Markdown\Renderers\MarkdownRenderer;
+use Rudra\Markdown\Renderers\DocumentationRendererInterface;
 
 class MakeDocumentation
 {
-    private DocumentationCreatorInterface $docCreator;
+    private DocumentationRendererInterface $docCreator;
 
     public function actionIndex(): void
     {
-        $reflection = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
-        $dir        = dirname(dirname(dirname($reflection->getFileName())));
+        $reflection  = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
+        $projectRoot = dirname($reflection->getFileName(), 3);
 
-        Cli::printer("Enter source directory: ", "magneta");
-        $sourceDir = trim(fgets(fopen("php://stdin", "r")));
-        $inputPath = $dir . '/' . $sourceDir;
+        Cli::printer("Enter source directory (relative to root, e.g., 'src') [src]: ", "magneta");
+        $sourceDir = trim(fgets(STDIN)) ?: 'src';
+        $inputPath = $projectRoot . '/' . ltrim($sourceDir, '/');
 
         if (!is_dir($inputPath)) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException("Directory not found: {$inputPath}");
         }
 
-        Cli::printer("Enter file name: ", "magneta");
-        $fileName = trim(fgets(fopen("php://stdin", "r")));
+        Cli::printer("Enter file name (without extension) [docs]: ", "magneta");
+        $fileName = trim(fgets(STDIN)) ?: 'docs';
 
-        Cli::printer("Enter output type: ", "magneta");
-        Cli::printer("(Html: html)[Markdowm: md]: ", "magneta");
-        $fileType = trim(fgets(fopen("php://stdin", "r")));
+        Cli::printer("Enter output type (html/md) [md]: ", "magneta");
+        $fileType = strtolower(trim(fgets(STDIN))) ?: 'md';
 
         if ($fileType === 'html') {
-            Cli::printer("Сhoose a framework: ", "magneta");
-            Cli::printer("(Foundation: f, Uikit: ui)[Bootstrap: bsp]: ", "magneta");
-            $frameworkType    = trim(fgets(fopen("php://stdin", "r")));
-            $this->docCreator = new HtmlCreator($frameworkType);
-            $outputPath       = $dir . '/' . $fileName . '.html';
+            Cli::printer("Choose a framework (f/ui) [bsp]: ", "magneta");
+            $frameworkType = strtolower(trim(fgets(STDIN))) ?: 'bsp';
+            
+            $this->docCreator = new HtmlRenderer($frameworkType);
+            $outputPath       = $projectRoot . '/' . $fileName . '.html';
         } else {
-            $this->docCreator = new MarkdownCreator();
-            $outputPath       = $dir . '/' . $fileName . '.md';
+            $this->docCreator = new MarkdownRenderer();
+            $outputPath       = $projectRoot . '/' . $fileName . '.md';
         }
 
+        data(['header' => '', 'body' => '']);
         $this->scandir($inputPath, $outputPath);
-        $this->docCreator->createDocs($outputPath);
+        $this->docCreator->renderDocs($outputPath);
 
-        Cli::printer("✅ Documentation: " . $outputPath . " created\n", "green");
+        Cli::printer("✅ Documentation created: " . $outputPath . "\n", "green");
     }
 
     /**
-     * Recursively scans a directory for PHP classes and processes files with uppercase filenames.
-     * 
-     * @param  string $inputPath
-     * @param  string $outputPath
-     * @return void
+     * Recursively scans a directory for PHP classes,
+     * interfaces, and traits, and accumulates documentation for them.
+     * -----------------
+     * Рекурсивно сканирует директорию в поисках PHP-классов,
+     * интерфейсов и трейтов, и накапливает документацию по ним.
+     *
+     * @param string $inputPath
      */
-    private function scandir(string $inputPath, string $outputPath): void
+    private function scandir(string $inputPath): void
     {
-        $directory = array_diff(scandir($inputPath), array('..', '.'));
+        $items = scandir($inputPath);
+        if ($items === false) {
+            return;
+        }
 
-        foreach($directory as $item) {
-            if (str_contains($item, ".php")) {
-                if (ctype_upper($item[0])) {
-                    $fileContent = file_get_contents($inputPath . '/' . $item);
-                    $className   = str_replace(".php", "", $item);
+        foreach ($items as $item) {
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
 
-                    if (preg_match('/namespace[\\s]+([A-Za-z0-9\\\\]+?);/sm', $fileContent, $match)) {
-                        $fullClassName = $match[1] . "\\" . $className;
+            $fullPath = $inputPath . DIRECTORY_SEPARATOR . $item;
 
-                        if (class_exists($fullClassName) or interface_exists($fullClassName) or trait_exists($fullClassName)) {
-                            $this->setData($fullClassName);
-                            $this->setData($fullClassName, "body");
-                        }
-                    }
-                }
-            } else {
-                $subDir = $inputPath . '/' . $item;
+            if (is_dir($fullPath)) {
+                $this->scandir($fullPath);
+                continue;
+            }
 
-                if (is_dir($subDir)) {   
-                    $this->scandir($subDir, $outputPath);
-                }
+            // Фильтр: только PHP-файлы, имя с заглавной буквы
+            if (!str_ends_with($item, '.php') || !ctype_upper($item[0])) {
+                continue;
+            }
+
+            $fileContent = file_get_contents($fullPath);
+            if ($fileContent === false) {
+                continue;
+            }
+
+            $className = pathinfo($item, PATHINFO_FILENAME);
+
+            if (!preg_match('/^namespace\s+([A-Za-z0-9\\\\]+);/m', $fileContent, $match)) {
+                continue;
+            }
+
+            $fullClassName = $match[1] . '\\' . $className;
+
+            if (class_exists($fullClassName) || interface_exists($fullClassName) || trait_exists($fullClassName)) {
+                $this->setData($fullClassName, 'header');
+                $this->setData($fullClassName, 'body');
             }
         }
     }
 
     /**
-     * Generates and appends documentation content for a class based on the specified type.
+     * Generates and appends documentation content for a class based on the specified type
+     * ------------------
+     * Генерирует и добавляет контент документации для класса на основе указанного типа
      * 
      * @param  string $fullClassName
      * @param  string $type
@@ -103,15 +122,10 @@ class MakeDocumentation
      */
     private function setData(string $fullClassName, string $type = 'header'): void
     {
-        $methodName = "create" . ucfirst($type) . "String";
-
-        if (Rudra::shared()->has($type)) {
-            data([
-                $type => data($type) . $this->docCreator->{$methodName}($fullClassName)
-            ]);
-            return;
-        }
-
-        data([$type => $this->docCreator->{$methodName}($fullClassName)]);
+        $methodName  = 'render' . ucfirst($type);
+        $content     = $this->docCreator->{$methodName}($fullClassName);
+        $currentData = Rudra::shared()->has($type) ? data($type) : '';
+        
+        data([$type => $currentData . $content]);
     }
 }
