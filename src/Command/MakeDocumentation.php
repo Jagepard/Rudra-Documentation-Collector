@@ -52,18 +52,20 @@ class MakeDocumentation
         }
 
         data(['header' => '', 'body' => '']);
-        $this->scandir($inputPath, $outputPath);
+        $this->scandir($inputPath);
         $this->docCreator->renderDocs($outputPath);
 
         Cli::printer("✅ Documentation created: " . $outputPath . "\n", "green");
     }
 
     /**
+     * ---------------------------------------------------------------|
      * Recursively scans a directory for PHP classes,
      * interfaces, and traits, and accumulates documentation for them.
-     * -----------------
+     * ---------------------------------------------------------------|
      * Рекурсивно сканирует директорию в поисках PHP-классов,
      * интерфейсов и трейтов, и накапливает документацию по ним.
+     * ---------------------------------------------------------------|
      *
      * @param string $inputPath
      */
@@ -86,7 +88,13 @@ class MakeDocumentation
                 continue;
             }
 
-            // Фильтр: только PHP-файлы, имя с заглавной буквы
+            /**
+             * -----------------------------------------------------------|
+             * Filter: only PHP files, name starting with a capital letter
+             * -----------------------------------------------------------|
+             * Фильтр: только PHP-файлы, имя с заглавной буквы
+             * -----------------------------------------------------------|
+             */
             if (!str_ends_with($item, '.php') || !ctype_upper($item[0])) {
                 continue;
             }
@@ -112,9 +120,11 @@ class MakeDocumentation
     }
 
     /**
+     * -----------------------------------------------------------------------------------|
      * Generates and appends documentation content for a class based on the specified type
-     * ------------------
+     * -----------------------------------------------------------------------------------|
      * Генерирует и добавляет контент документации для класса на основе указанного типа
+     * -----------------------------------------------------------------------------------|
      * 
      * @param  string $fullClassName
      * @param  string $type

@@ -14,18 +14,22 @@ namespace Rudra\Markdown\Renderers;
 class HtmlRenderer implements DocumentationRendererInterface
 {
     /**
+     * ----------------------------------------------------------------------|
      * CSS framework for styling HTML documentation.
      * Allowed values: 'bsp' (Bootstrap), 'ui' (UIkit), 'f' (Foundation)
-     * ---------------------
+     * ----------------------------------------------------------------------|
      * CSS-фреймворк для оформления HTML-документации.
      * Допустимые значения: 'bsp' (Bootstrap), 'ui' (UIkit), 'f' (Foundation)
+     * ----------------------------------------------------------------------|
      */
     private string $cssFramework;
 
     /**
+     * --------------------------------------------------------------------------|
      * Sets the CSS framework for styling the generated HTML documentation
-     * ----------------------
+     * --------------------------------------------------------------------------|
      * Устанавливает CSS-фреймворк для оформления генерируемой HTML-документации.
+     * --------------------------------------------------------------------------|
      *
      * @param string $cssFramework
      */
@@ -42,9 +46,11 @@ class HtmlRenderer implements DocumentationRendererInterface
     }
 
     /**
+     * ---------------------------------------------------|
      * Generates and saves the full documentation document
-     * -------------------
+     * ---------------------------------------------------|
      * Генерирует и сохраняет полный документ документации
+     * ---------------------------------------------------|
      * 
      * @param  string $outputPath
      * @return void
@@ -52,7 +58,13 @@ class HtmlRenderer implements DocumentationRendererInterface
     #[\Override]
     public function renderDocs(string $outputPath): void
     {
-        // Собираем весь документ в одну строку
+        /**
+         * ----------------------------------------|
+         * Combine the whole document into one line
+         * ----------------------------------------|
+         * Собираем весь документ в одну строку
+         * ----------------------------------------|
+         */
         $content = $this->setHtmlHeader()
             . '<h2 id="table-of-contents">Table of contents</h2>'
             . data('header') . '<hr>'
@@ -64,9 +76,11 @@ class HtmlRenderer implements DocumentationRendererInterface
     }
 
     /**
+     * --------------------------------------------------------------------------------------|
      * Generates the header part of the documentation for a class (for the table of contents)
-     * ------------------
+     * --------------------------------------------------------------------------------------|
      * Генерирует заголовочную часть документации для класса (для оглавления).
+     * --------------------------------------------------------------------------------------|
      * 
      * @param  string $fullClassName
      * @return string
@@ -79,9 +93,11 @@ class HtmlRenderer implements DocumentationRendererInterface
     }
 
     /**
+     * ------------------------------------------------------------------------|
      * Generates the main part of the documentation for a class (methods table)
-     * ------------------
+     * ------------------------------------------------------------------------|
      * Генерирует основную часть документации для класса (таблица методов)
+     * ------------------------------------------------------------------------|
      * 
      * @param  string $fullClassName
      * @return string

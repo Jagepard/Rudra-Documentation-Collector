@@ -14,9 +14,11 @@ namespace Rudra\Markdown\Renderers;
 class MarkdownRenderer implements DocumentationRendererInterface
 {
     /**
+     * ---------------------------------------------------|
      * Generates and saves the full documentation document
-     * -------------------
+     * ---------------------------------------------------|
      * Генерирует и сохраняет полный документ документации
+     * ---------------------------------------------------|
      * 
      * @param  string $outputPath
      * @return void
@@ -33,9 +35,11 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
+     * --------------------------------------------------------------------------------------|
      * Generates the header part of the documentation for a class (for the table of contents)
-     * ------------------
+     * --------------------------------------------------------------------------------------|
      * Генерирует заголовочную часть документации для класса (для оглавления).
+     * --------------------------------------------------------------------------------------|
      * 
      * @param  string $fullClassName
      * @return string
@@ -48,9 +52,11 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
+     * ------------------------------------------------------------------------|
      * Generates the main part of the documentation for a class (methods table)
-     * ------------------
+     * ------------------------------------------------------------------------|
      * Генерирует основную часть документации для класса (таблица методов)
+     * ------------------------------------------------------------------------|
      * 
      * @param  string $fullClassName
      * @return string
@@ -73,10 +79,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * Builds a row for a method in a Markdown table
-     * -------------
-     * Собирает одну строку Markdown-таблицы для метода класса
-     *
      * @param  \ReflectionMethod $method
      * @return string
      */
@@ -90,10 +92,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * Extracts the anchor name for a class
-     * ------------------
-     * Преобразует полное имя класса в якорь для Markdown-ссылок
-     *
      * @param  string $className
      * @return string
      */
@@ -103,10 +101,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * Builds the method signature with parameters and return type
-     * ------------------
-     * Собирает сигнатуру метода с параметрами и типом возвращаемого значения
-     *
      * @param \ReflectionMethod $method
      * @return string
      */
@@ -131,12 +125,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * Extracts and clears the description from a DocBlock method
-     * Escapes $ and | for safe display inside a Markdown table
-     * -------------------
-     * Извлекает и очищает описание из DocBlock метода
-     * Экранирует `$` и `|` для безопасного отображения внутри Markdown-таблицы
-     * 
      * @param \ReflectionMethod $method
      * @return string
      */
@@ -174,10 +162,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * Formats a parameter's type and name
-     * -------------------
-     * Формирует строковое представление параметра метода (тип + имя)
-     * 
      * @param \ReflectionParameter $param
      * @return string
      */
@@ -188,10 +172,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * Converts a ReflectionType to a string representation
-     * ------------------
-     * Преобразует ReflectionType в строковое представление
-     *
      * @param \ReflectionType $type
      * @return string
      */
