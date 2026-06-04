@@ -21,5 +21,11 @@ use Rudra\Markdown\Command\MakeDocumentation;
 
 parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
 
-Cli::addCommand("", [MakeDocumentation::class]);
+$commandName = 'make:docs';
+Cli::addCommand($commandName, [MakeDocumentation::class]);
+parse_str(implode('&', array_slice($argv, 1)), $inputArgs);
+if (empty($inputArgs)) {
+    $inputArgs = [$commandName => ''];
+}
+
 Cli::invoke($inputArgs);
