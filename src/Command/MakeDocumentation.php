@@ -59,15 +59,8 @@ class MakeDocumentation
     }
 
     /**
-     * ---------------------------------------------------------------|
      * Recursively scans a directory for PHP classes,
      * interfaces, and traits, and accumulates documentation for them.
-     * ---------------------------------------------------------------|
-     * Рекурсивно сканирует директорию в поисках PHP-классов,
-     * интерфейсов и трейтов, и накапливает документацию по ним.
-     * ---------------------------------------------------------------|
-     *
-     * @param string $inputPath
      */
     private function scandir(string $inputPath): void
     {
@@ -88,13 +81,7 @@ class MakeDocumentation
                 continue;
             }
 
-            /**
-             * -----------------------------------------------------------|
-             * Filter: only PHP files, name starting with a capital letter
-             * -----------------------------------------------------------|
-             * Фильтр: только PHP-файлы, имя с заглавной буквы
-             * -----------------------------------------------------------|
-             */
+            // Filter: only PHP files, name starting with a capital letter
             if (!str_ends_with($item, '.php') || !ctype_upper($item[0])) {
                 continue;
             }
@@ -120,15 +107,7 @@ class MakeDocumentation
     }
 
     /**
-     * -----------------------------------------------------------------------------------|
      * Generates and appends documentation content for a class based on the specified type
-     * -----------------------------------------------------------------------------------|
-     * Генерирует и добавляет контент документации для класса на основе указанного типа
-     * -----------------------------------------------------------------------------------|
-     * 
-     * @param  string $fullClassName
-     * @param  string $type
-     * @return void
      */
     private function setData(string $fullClassName, string $type = 'header'): void
     {

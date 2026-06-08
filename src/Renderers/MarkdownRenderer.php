@@ -14,14 +14,7 @@ namespace Rudra\Markdown\Renderers;
 class MarkdownRenderer implements DocumentationRendererInterface
 {
     /**
-     * ---------------------------------------------------|
      * Generates and saves the full documentation document
-     * ---------------------------------------------------|
-     * Генерирует и сохраняет полный документ документации
-     * ---------------------------------------------------|
-     * 
-     * @param  string $outputPath
-     * @return void
      */
     #[\Override]
     public function renderDocs(string $outputPath): void
@@ -35,14 +28,7 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * --------------------------------------------------------------------------------------|
      * Generates the header part of the documentation for a class (for the table of contents)
-     * --------------------------------------------------------------------------------------|
-     * Генерирует заголовочную часть документации для класса (для оглавления).
-     * --------------------------------------------------------------------------------------|
-     * 
-     * @param  string $fullClassName
-     * @return string
      */
     #[\Override]
     public function renderHeader(string $fullClassName): string
@@ -52,14 +38,7 @@ class MarkdownRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * ------------------------------------------------------------------------|
      * Generates the main part of the documentation for a class (methods table)
-     * ------------------------------------------------------------------------|
-     * Генерирует основную часть документации для класса (таблица методов)
-     * ------------------------------------------------------------------------|
-     * 
-     * @param  string $fullClassName
-     * @return string
      */
     #[\Override]
     public function renderBody(string $fullClassName): string
@@ -78,10 +57,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
         return $header . $table;
     }
 
-    /**
-     * @param  \ReflectionMethod $method
-     * @return string
-     */
     private function buildMethodRow(\ReflectionMethod $method): string
     {
         $modifiers = implode(' ', \Reflection::getModifierNames($method->getModifiers()));
@@ -91,19 +66,11 @@ class MarkdownRenderer implements DocumentationRendererInterface
         return "| {$modifiers} | {$signature}<br>{$docBlock} |\n";
     }
 
-    /**
-     * @param  string $className
-     * @return string
-     */
     private function getAnchorName(string $className): string
     {
         return str_replace('\\', '_', strtolower($className));
     }
 
-    /**
-     * @param \ReflectionMethod $method
-     * @return string
-     */
     private function buildMethodSignature(\ReflectionMethod $method): string
     {
         $signature = '`' . $method->getName() . '(';
@@ -124,10 +91,6 @@ class MarkdownRenderer implements DocumentationRendererInterface
         return $signature . '`';
     }
 
-    /**
-     * @param \ReflectionMethod $method
-     * @return string
-     */
     private function extractDocBlock(\ReflectionMethod $method): string
     {
         $docComment = $method->getDocComment();
@@ -141,12 +104,12 @@ class MarkdownRenderer implements DocumentationRendererInterface
         foreach ($lines as $line) {
             $cleanLine = trim(str_replace(['*', '  ', "\t"], '', $line));
 
-            // Останавливаемся на первом теге (@param, @return и т.д.)
+            // Stop at the first tag (@param, @return, etc.)
             if (str_starts_with($cleanLine, '@')) {
                 break;
             }
 
-            // Экранируем `$` и `|` только вне обратных кавычек
+            // Escape $ and | only outside backticks.
             $cleanLine = preg_replace_callback(
                 '/(`.*?`)|([\$|])/',
                 fn($matches) => $matches[1] !== '' ? $matches[1] : '\\' . $matches[2],
@@ -161,20 +124,12 @@ class MarkdownRenderer implements DocumentationRendererInterface
         return implode('<br>', $descriptionLines);
     }
 
-    /**
-     * @param \ReflectionParameter $param
-     * @return string
-     */
     private function getParameterTypeAndName(\ReflectionParameter $param): string
     {
         $type = $param->getType() ? $this->getTypeAsString($param->getType()) . ' ' : '';
         return $type . '$' . $param->getName();
     }
 
-    /**
-     * @param \ReflectionType $type
-     * @return string
-     */
     private function getTypeAsString(\ReflectionType $type): string
     {
         return str_replace('|', '\|', (string) $type);

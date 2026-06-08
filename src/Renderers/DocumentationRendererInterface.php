@@ -13,21 +13,7 @@ namespace Rudra\Markdown\Renderers;
 
 interface DocumentationRendererInterface
 {
-    /**
-     * @param  string $outputPath
-     * @return void
-     */
     public function renderDocs(string $outputPath): void;
-
-    /**
-     * @param  string $fullClassName
-     * @return string
-     */
     public function renderHeader(string $fullClassName): string;
-
-    /**
-     * @param  string $fullClassName
-     * @return string
-     */
     public function renderBody(string $fullClassName): string;
 }
