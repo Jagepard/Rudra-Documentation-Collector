@@ -14,24 +14,15 @@ namespace Rudra\Markdown\Renderers;
 class HtmlRenderer implements DocumentationRendererInterface
 {
     /**
-     * ----------------------------------------------------------------------|
      * CSS framework for styling HTML documentation.
      * Allowed values: 'bsp' (Bootstrap), 'ui' (UIkit), 'f' (Foundation)
-     * ----------------------------------------------------------------------|
-     * CSS-фреймворк для оформления HTML-документации.
-     * Допустимые значения: 'bsp' (Bootstrap), 'ui' (UIkit), 'f' (Foundation)
-     * ----------------------------------------------------------------------|
      */
     private string $cssFramework;
 
     /**
-     * --------------------------------------------------------------------------|
      * Sets the CSS framework for styling the generated HTML documentation
-     * --------------------------------------------------------------------------|
-     * Устанавливает CSS-фреймворк для оформления генерируемой HTML-документации.
-     * --------------------------------------------------------------------------|
-     *
-     * @param string $cssFramework
+     * 
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $cssFramework = 'bsp')
     {
@@ -46,25 +37,12 @@ class HtmlRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * ---------------------------------------------------|
      * Generates and saves the full documentation document
-     * ---------------------------------------------------|
-     * Генерирует и сохраняет полный документ документации
-     * ---------------------------------------------------|
-     * 
-     * @param  string $outputPath
-     * @return void
      */
     #[\Override]
     public function renderDocs(string $outputPath): void
     {
-        /**
-         * ----------------------------------------|
-         * Combine the whole document into one line
-         * ----------------------------------------|
-         * Собираем весь документ в одну строку
-         * ----------------------------------------|
-         */
+        // Combine the whole document into one line
         $content = $this->setHtmlHeader()
             . '<h2 id="table-of-contents">Table of contents</h2>'
             . data('header') . '<hr>'
@@ -76,14 +54,7 @@ class HtmlRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * --------------------------------------------------------------------------------------|
      * Generates the header part of the documentation for a class (for the table of contents)
-     * --------------------------------------------------------------------------------------|
-     * Генерирует заголовочную часть документации для класса (для оглавления).
-     * --------------------------------------------------------------------------------------|
-     * 
-     * @param  string $fullClassName
-     * @return string
      */
     #[\Override]
     public function renderHeader(string $fullClassName): string
@@ -93,14 +64,7 @@ class HtmlRenderer implements DocumentationRendererInterface
     }
 
     /**
-     * ------------------------------------------------------------------------|
      * Generates the main part of the documentation for a class (methods table)
-     * ------------------------------------------------------------------------|
-     * Генерирует основную часть документации для класса (таблица методов)
-     * ------------------------------------------------------------------------|
-     * 
-     * @param  string $fullClassName
-     * @return string
      */
     #[\Override]
     public function renderBody(string $fullClassName): string
@@ -111,11 +75,6 @@ class HtmlRenderer implements DocumentationRendererInterface
              . $this->buildMethodsTable($class->getMethods());
     }
 
-    /**
-     * @param  \ReflectionClass $class
-     * @param  string           $fullClassName
-     * @return string
-     */
     private function buildClassHeader(\ReflectionClass $class, string $fullClassName): string
     {
         $header = '<a id="' . $this->getAnchorName($fullClassName) . '"></a>' 
@@ -132,10 +91,6 @@ class HtmlRenderer implements DocumentationRendererInterface
         return $header;
     }
 
-    /**
-     * @param  array  $methods
-     * @return string
-     */
     private function buildMethodsTable(array $methods): string
     {
         $table = '
@@ -156,10 +111,6 @@ class HtmlRenderer implements DocumentationRendererInterface
         return $table . '</tbody></table>';
     }
 
-    /**
-     * @param  \ReflectionMethod $method
-     * @return string
-     */
     private function buildMethodRow(\ReflectionMethod $method): string
     {
         $modifiers = implode(' ', \Reflection::getModifierNames($method->getModifiers()));
@@ -177,10 +128,6 @@ class HtmlRenderer implements DocumentationRendererInterface
         return '<tr><td>' . $modifiers . '</td><td>' . $signature . $docBlock . '</td></tr>';
     }
 
-    /**
-     * @param  \ReflectionMethod $method
-     * @return string
-     */
     private function extractDocBlock(\ReflectionMethod $method): string
     {
         $docComment = $method->getDocComment();
@@ -203,18 +150,11 @@ class HtmlRenderer implements DocumentationRendererInterface
         return implode('<br>', $newStrings);
     }
 
-    /**
-     * @param string $className
-     * @return string
-     */
     private function getAnchorName(string $className): string
     {
         return str_replace("\\", "_", strtolower($className));
     }
 
-    /**
-     * @return string
-     */
     private function setHtmlHeader(): string
     {
         return match ($this->cssFramework) {
@@ -257,9 +197,6 @@ class HtmlRenderer implements DocumentationRendererInterface
         };
     }
 
-    /**
-     * @return string
-     */
     private function setHtmlFooter(): string
     {
         return match ($this->cssFramework) {
@@ -273,9 +210,6 @@ class HtmlRenderer implements DocumentationRendererInterface
         };
     }
 
-    /**
-     * @return string
-     */
     private function setTableClass(): string
     {
         return match ($this->cssFramework) {
