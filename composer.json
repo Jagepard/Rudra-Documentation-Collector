@@ -22,7 +22,7 @@
         "source": "https://github.com/Jagepard/Rudra-Docs"    
     },
     "require": {
-        "php": ">=8.3",
+        "php": "^8.3",
         "rudra/cli": "self.version",
         "rudra/container": "self.version"
     },
