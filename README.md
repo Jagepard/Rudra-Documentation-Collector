@@ -3,26 +3,21 @@
 
 # Rudra-Documentation-Collector | [API](https://github.com/Jagepard/Rudra-Markdown/blob/master/docs.md "Documentation API")
 
-## Install | Установка
-
+## Install
 ```composer require rudra/docs```
-
-### Generate docs for all classes in a source directory | Создание документации для всех классов в каталоге
+### Generate docs for all classes in a source directory
 ```$ ./vendor/bin/rudra-docs```
-
-### Добавить команду в Rudra-Framework ```config/commands.yml```
+### Add a command to Rudra Framework ```config/commands.yml```
 ```yml
 make:docs:
   - Rudra\Markdown\Command\MakeDocumentation
 ```
+### Specify the path of the required folder with classes
+```Enter source directory: src``` or ```Enter source directory: vendor/rudra/cli```
 
-### Specify the path of the required folder with classes | Указываем путь необходимой папки с классами
-```Enter source directory: src``` or | или ```Enter source directory: vendor/rudra/cli```
-
-### Specify the name of the output file .md | Указываем название выходного файла .md
+### Specify the name of the output file .md
 ```Enter file name: api```
 ## License
-
 This project is licensed under the **Mozilla Public License 2.0 (MPL-2.0)** — a free, open-source license that:
 
 - Requires preservation of copyright and license notices,
@@ -32,13 +27,3 @@ This project is licensed under the **Mozilla Public License 2.0 (MPL-2.0)** — 
 
 📄 Full license text: [LICENSE](./LICENSE)  
 🌐 Official MPL-2.0 page: https://mozilla.org/MPL/2.0/
-
---------------------------
-Проект распространяется под лицензией **Mozilla Public License 2.0 (MPL-2.0)**. Это означает:
- - Вы можете свободно использовать, изменять и распространять код.
- - При изменении файлов, содержащих исходный код из этого репозитория, вы обязаны оставить их открытыми под той же лицензией.
- - Вы **обязаны сохранять уведомления об авторстве** и ссылку на оригинал.
- - Вы можете встраивать код в проприетарные проекты, если исходные файлы остаются под MPL.
-
-📄  Полный текст лицензии (на английском): [LICENSE](./LICENSE)  
-🌐 Официальная страница: https://mozilla.org/MPL/2.0/
