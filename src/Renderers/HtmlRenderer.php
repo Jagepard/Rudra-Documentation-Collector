@@ -80,7 +80,8 @@ class HtmlRenderer implements DocumentationRendererInterface
         $header = '<a id="' . $this->getAnchorName($fullClassName) . '"></a>' 
                 . '<h3>Class: ' . $fullClassName . '</h3>';
 
-        if ($parent  = $class->getParentClass()) {
+        $parent = $class->getParentClass();
+        if ($parent) {
             $header .= '<h5>extends <a href="#' . $this->getAnchorName($parent->getName()) . '">' . $parent->getName() . '</a></h5>';
         }
 
