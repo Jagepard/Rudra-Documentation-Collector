@@ -26,7 +26,7 @@ class MakeDocumentation
         $reflection  = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
         $projectRoot = dirname($reflection->getFileName(), 3);
 
-        Cli::printer("Enter source directory (relative to root, e.g., 'src') [src]: ", "magneta");
+        Cli::printer("Enter source directory (relative to root, e.g., 'src') [src]: ", "light_cyan");
         $sourceDir = trim(fgets(STDIN)) ?: 'src';
         $inputPath = $projectRoot . '/' . ltrim($sourceDir, '/');
 
@@ -34,14 +34,14 @@ class MakeDocumentation
             throw new \InvalidArgumentException("Directory not found: {$inputPath}");
         }
 
-        Cli::printer("Enter file name (without extension) [docs]: ", "magneta");
+        Cli::printer("Enter file name (without extension) [docs]: ", "light_cyan");
         $fileName = trim(fgets(STDIN)) ?: 'docs';
 
-        Cli::printer("Enter output type (html/md) [md]: ", "magneta");
+        Cli::printer("Enter output type (html/md) [md]: ", "light_cyan");
         $fileType = strtolower(trim(fgets(STDIN))) ?: 'md';
 
         if ($fileType === 'html') {
-            Cli::printer("Choose a framework (f/ui) [bsp]: ", "magneta");
+            Cli::printer("Choose a framework (f/ui) [bsp]: ", "light_cyan");
             $frameworkType = strtolower(trim(fgets(STDIN))) ?: 'bsp';
             
             $this->docCreator = new HtmlRenderer($frameworkType);
@@ -55,7 +55,7 @@ class MakeDocumentation
         $this->scandir($inputPath);
         $this->docCreator->renderDocs($outputPath);
 
-        Cli::printer("✅ Documentation created: " . $outputPath . "\n", "green");
+        Cli::printer("✅ Documentation created: " . $outputPath . "\n", "light_green");
     }
 
     /**
