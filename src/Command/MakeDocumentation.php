@@ -31,7 +31,8 @@ class MakeDocumentation
         $inputPath = $projectRoot . '/' . ltrim($sourceDir, '/');
 
         if (!is_dir($inputPath)) {
-            throw new \InvalidArgumentException("Directory not found: {$inputPath}");
+            Cli::printer("❌ Error: Directory not found: {$inputPath}\n", "light_red");
+            exit(1);
         }
 
         Cli::printer("Enter file name (without extension) [docs]: ", "light_cyan");
