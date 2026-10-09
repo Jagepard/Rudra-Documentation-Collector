@@ -26,7 +26,7 @@ class MakeDocumentation
         $reflection  = new \ReflectionClass(\Composer\Autoload\ClassLoader::class);
         $projectRoot = dirname($reflection->getFileName(), 3);
 
-        Cli::printer('Enter source directory (relative to root, e.g., 'src') [src]: ', 'light_cyan');
+        Cli::printer('Enter source directory (relative to root, e.g., "src") [src]: ', 'light_cyan');
         $sourceDir = trim(fgets(STDIN)) ?: 'src';
         $inputPath = $projectRoot . '/' . ltrim($sourceDir, '/');
 
